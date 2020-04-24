@@ -3,7 +3,7 @@
  * @extends Phaser.Scene
  */
 
-export class SceneChargement extends Phaser.Scene {
+export class sceneChargement extends Phaser.Scene {
 
 	constructor() {
 		super("SceneChargement");
@@ -13,7 +13,7 @@ export class SceneChargement extends Phaser.Scene {
 		//Charger l'image du jeu
 
 		//L'image du bloc
-		this.load.image("medias/tiles/bloc.png");
+		this.load.image("medias/tiles/bloc");
 
 		//La feuille de sprite de Dude
 		this.load.spritesheet("dude", "medias/spritesheet/dude.png", {

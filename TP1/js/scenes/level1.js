@@ -9,7 +9,7 @@ import {
  * Class representant la scène du jeu comme tel
  */
 
-export class SceneJeu extends Phaser.Scene {
+export class level1 extends Phaser.Scene {
 
 	constructor() {
 		super("SceneJeu");
