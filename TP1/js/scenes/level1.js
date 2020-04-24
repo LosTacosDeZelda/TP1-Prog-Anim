@@ -41,23 +41,23 @@ export class level1 extends Phaser.Scene {
 		let posX = 0;
 		let monBloc;
 
+
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 5; i++) {
 			
 			//const element = array[i];
-			this.leBloc = this.physics.add.image(game.config.width - posX, game.config.height, "bloc");
+			this.leBloc = this.physics.add.image(0,0, "bloc");
 			// GrilleMontage.mettreEchelleRatioX(this.leBloc);
-			this.leBloc.setOrigin(1, 1)
+			//this.leBloc.setOrigin(1, 1);
 			
-
-			posX += this.leBloc.width;
+            this.GrilleMontage.placerIndexCellule(410+i,this.leBloc);
+            this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc);
+			
 
 
             this.mesBlocs.push(this.leBloc);
 
-            
-            
-            
+        
 		}
 		
 
@@ -96,12 +96,12 @@ export class level1 extends Phaser.Scene {
 		//Le bloc reste immobile lors des collisions
 
 		//Détection des collisions entre dude et le bloc
-		for (let i = 0; i < 10; i++) {
+        this.mesBlocs.forEach(bloc => {
 
-			this.physics.add.collider(this.dude,this.mesBlocs[i],this.test);
-			this.mesBlocs[i].setImmovable(true);
-			
-		}
+            this.physics.add.collider(this.dude,bloc,this.test);
+            bloc.setImmovable(true);
+            
+        });
 		
 		this.physics.world.checkCollision.down = true;
 
