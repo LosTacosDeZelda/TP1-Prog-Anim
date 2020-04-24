@@ -40,6 +40,7 @@ export class level1 extends Phaser.Scene {
 		this.lesfleches = this.input.keyboard.createCursorKeys();
 		let posX = 0;
 
+
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
 		for (let i = 0; i < 3; i++) {
 			
@@ -85,12 +86,12 @@ export class level1 extends Phaser.Scene {
 		//Le bloc reste immobile lors des collisions
 
 		//Détection des collisions entre dude et le bloc
-		for (let i = 0; i < 3; i++) {
+        this.mesBlocs.forEach(bloc => {
 
-			this.physics.add.collider(this.dude,this.mesBlocs[i],this.test);
-			this.mesBlocs[i].setImmovable(true);
-			
-		}
+            this.physics.add.collider(this.dude,bloc,this.test);
+            bloc.setImmovable(true);
+            
+        });
 		
 		this.physics.world.checkCollision.down = true;
 
