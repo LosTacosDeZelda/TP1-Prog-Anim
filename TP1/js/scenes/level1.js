@@ -34,32 +34,22 @@ export class level1 extends Phaser.Scene {
 	}
 
 	create() {
-		this.GrilleMontage.afficherGrille();
+		// this.GrilleMontage.afficherGrille();
 
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();
 		let posX = 0;
-		let monBloc;
 
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 3; i++) {
 			
-			//const element = array[i];
 			this.leBloc = this.physics.add.image(game.config.width - posX, game.config.height, "bloc");
-			// GrilleMontage.mettreEchelleRatioX(this.leBloc);
-			this.leBloc.setOrigin(1, 1)
+			this.leBloc.setOrigin(0.5, 0.5);
 			
-
-			posX += this.leBloc.width;
-
-
+			this.GrilleMontage.placerIndexCellule(235+i, this.leBloc);
+			this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
             this.mesBlocs.push(this.leBloc);
-
-            
-            
-            
 		}
-		
 
 		//Créer les animations de dude - marcheGauche et marcheDroite
 		this.anims.create({
@@ -86,7 +76,6 @@ export class level1 extends Phaser.Scene {
 		this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height/2, "dude", 4);
 		this.dude.setOrigin(0.5, 1);
         
-        
 
 
 		//dude peut sortir des limites du jeu
@@ -96,7 +85,7 @@ export class level1 extends Phaser.Scene {
 		//Le bloc reste immobile lors des collisions
 
 		//Détection des collisions entre dude et le bloc
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 3; i++) {
 
 			this.physics.add.collider(this.dude,this.mesBlocs[i],this.test);
 			this.mesBlocs[i].setImmovable(true);
