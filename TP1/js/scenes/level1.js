@@ -26,9 +26,13 @@ export class level1 extends Phaser.Scene {
 
 		//Variable pour détecter le saut
 		this.isJumping = false;
+
+		this.GrilleMontage = new GrilleMontage(this, 3*15, 2*15);
 	}
 
 	create() {
+		// this.GrilleMontage.afficherGrille();
+
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();
 		let posX = 0;
@@ -39,7 +43,7 @@ export class level1 extends Phaser.Scene {
 			
 			//const element = array[i];
 			this.leBloc = this.physics.add.image(game.config.width - posX, game.config.height, "bloc");
-			GrilleMontage.mettreEchelleRatioX(this.leBloc);
+			// GrilleMontage.mettreEchelleRatioX(this.leBloc);
 			this.leBloc.setOrigin(1, 1)
 			
 
@@ -115,9 +119,7 @@ export class level1 extends Phaser.Scene {
 	update() {
 
 		//Si aucune touche fléchée n'est enfoncée
-		//dude reste immobile
-		
-		
+		//dude reste immobile		
 
 		if (this.lesfleches.right.isDown) {
 			this.dude.setVelocityX(300);
@@ -130,13 +132,6 @@ export class level1 extends Phaser.Scene {
 			this.dude.setFrame(4);
 
 			this.dude.setVelocityX(0);
-		}
-
-		if (this.dude.y < game.config.height) {
-			this.isJumping == true
-		}
-		else{
-			this.isJumping == false
 		}
 
 		if (this.lesfleches.up.isDown && this.dude.body.touching.down) {

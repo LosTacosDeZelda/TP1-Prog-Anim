@@ -33,8 +33,10 @@ export class GrilleMontage {
 		this.epaisseurTrait = epaisseurTrait;
 
 		//On va aussi enregistrer les valeurs pour la largeur et la hauteur du jeu
-		this.h = game.config.height;
-		this.w = game.config.width;
+		// this.h = game.config.height*2;
+		// this.w = game.config.width*5;
+		this.h = 2000;
+		this.w = 3000;
 
 		//On va créer d'autres propriétés d'instances utiles:
 
