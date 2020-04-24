@@ -41,12 +41,12 @@ export class level1 extends Phaser.Scene {
 
 
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-		for (let i = 0; i < 97; i++) {
+		for (let i = 0; i < 100; i++) {
 			
             this.leBloc = this.physics.add.image(0,0, "bloc");
             this.leBloc.setOrigin(0.5,0.5);
 			
-			this.GrilleMontage.placerIndexCellule(485+i, this.leBloc);
+			this.GrilleMontage.placerIndexCellule(500+i, this.leBloc);
 			this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
             this.mesBlocs.push(this.leBloc);
         }
