@@ -17,15 +17,16 @@ export class level1 extends Phaser.Scene {
 
         
 
-		// Propriétés du jeu 
-		this.leBloc = null; //L'image du bloc
+		//Arrays
 		this.mesBlocs = [];
 
 		//Les flèches du clavier	
 		this.lesfleches = null; //Les touches fléchées du clavier
 
-		//Le personnage de dude
-		this.dude = null;
+		//GameObjects
+        this.dude = null;
+        this.blocLave = null;
+        this.leBloc = null; //L'image du bloc
 
 		//Variable pour détecter le saut
 		this.isJumping = false;
@@ -44,8 +45,8 @@ export class level1 extends Phaser.Scene {
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
 		for (let i = 0; i < 75; i++) {
 			
-			this.leBloc = this.physics.add.image(game.config.width - posX, game.config.height, "bloc");
-			this.leBloc.setOrigin(0.5, 0.5);
+            this.leBloc = this.physics.add.image(0,0, "bloc");
+            //this.leBloc.setOrigin(0.5,0.5);
 			
 			this.GrilleMontage.placerIndexCellule(450+i, this.leBloc);
 			this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
@@ -95,8 +96,13 @@ export class level1 extends Phaser.Scene {
 		
 		this.physics.world.checkCollision.down = true;
 
+        //Caméra suivant le joueur avec contraintes
         this.cameras.main.startFollow(this.dude);
-        //this.cameras.main.followOffset =
+        this.cameras.main.setBounds(0,-500,5000,2500);
+
+        this.cameras.main.setScene(this);
+        
+        
 
 	}
 
@@ -106,7 +112,11 @@ export class level1 extends Phaser.Scene {
 	}
 
 	update() {
-
+        console.log();
+        // if (this.cameras.main.x < this.game.config.width) {
+        //     this.cameras.main.stopFollow();
+        // }
+        
 		//Si aucune touche fléchée n'est enfoncée
 		//dude reste immobile		
 

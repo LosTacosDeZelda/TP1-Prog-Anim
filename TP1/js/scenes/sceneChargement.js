@@ -11,10 +11,11 @@ export class sceneChargement extends Phaser.Scene {
 
 	preload() {
         //Charger l'image du jeu
-        this.load.setPath("medias/tiles/");
+        this.load.setPath("medias/");
 
 		//L'image du bloc
-        this.load.image("bloc");
+        this.load.image("bloc","tiles/bloc.png");
+        this.load.image("lava","tiles/lava.png");
         
         this.load.setPath("medias/spritesheet");
 
