@@ -33,7 +33,9 @@ export class level1 extends Phaser.Scene {
 	}
 
 	create() {
-		this.GrilleMontage.afficherGrille();
+        this.GrilleMontage.afficherGrille();
+        
+        //this.physics.add.group([])
 
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();
@@ -56,11 +58,12 @@ export class level1 extends Phaser.Scene {
             this.blocLave = this.physics.add.image(0,0,"lava");
 
             this.GrilleMontage.placerColonneLigne(1,i+1,this.blocLave);
+            this.GrilleMontage.mettreEchelleProportionMaximale(this.blocLave, 1);
             
         }
 
-		this.blocLave = this.physics.add.image(0,0,"lava");
-		this.GrilleMontage.placerIndexCellule(450, this.blocLave);
+		// this.blocLave = this.physics.add.image(0,0,"lava");
+		// this.GrilleMontage.placerIndexCellule(450, this.blocLave);
 
 
 		//Créer les animations de dude - marcheGauche et marcheDroite
@@ -87,15 +90,9 @@ export class level1 extends Phaser.Scene {
 		//On affiche l'image au repos
 		this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height/2, "dude", 4);
 		this.dude.setOrigin(0.5, 1);
-        
 
-
-		//dude peut sortir des limites du jeu
-		//this.dude.setCollideWorldBounds(true);
-		this.leBloc.setCollideWorldBounds(true);
 
 		//Le bloc reste immobile lors des collisions
-
 		//Détection des collisions entre dude et le bloc
         this.mesBlocs.forEach(bloc => {
 
@@ -103,12 +100,12 @@ export class level1 extends Phaser.Scene {
             bloc.setImmovable(true);
             
         });
-		
-		this.physics.world.checkCollision.down = true;
+        
+        //this.physics.add.overlap()
 
         //Caméra suivant le joueur avec contraintes
         this.cameras.main.startFollow(this.dude);
-        this.cameras.main.setBounds(0,-500,5000,2500);
+        this.cameras.main.setBounds(0,-500,7000,2500);
 
         this.cameras.main.setScene(this);
         
