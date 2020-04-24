@@ -8,8 +8,8 @@ import {
 } from './scenes/level1.js';
 
 window.addEventListener("load", function(){
-    let largeur = 576,
-		hauteur = 1024;
+    let largeur = 1024,
+		hauteur = 576;
 
 	//On fait 2 vérifications la première pour "Mobile" et la seconde pour "Tablet"
 	//Et si on est sur un mobile (tablette ou téléphone), on re-dimensionne le jeu
