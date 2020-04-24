@@ -6,7 +6,7 @@
 export class sceneChargement extends Phaser.Scene {
 
 	constructor() {
-		super("SceneChargement");
+		super("sceneChargement");
 	}
 
 	preload() {

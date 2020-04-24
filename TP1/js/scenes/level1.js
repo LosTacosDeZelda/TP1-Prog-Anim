@@ -12,7 +12,7 @@ import {
 export class level1 extends Phaser.Scene {
 
 	constructor() {
-		super("SceneJeu");
+		super("level1");
 
 		// Propriétés du jeu 
 		this.leBloc = null; //L'image du bloc

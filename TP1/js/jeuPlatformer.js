@@ -12,6 +12,8 @@ window.addEventListener("load", function(){
     let config = {
 
         scale:{
+            mode: Phaser.Scale.FIT,
+			autoCenter: Phaser.Scale.CENTER_BOTH,
             width:300,
             height:400
         },
