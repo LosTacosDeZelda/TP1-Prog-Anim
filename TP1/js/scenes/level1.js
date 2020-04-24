@@ -36,12 +36,11 @@ export class level1 extends Phaser.Scene {
 	}
 
 	create() {
-		this.GrilleMontage.afficherGrille();
+		// this.GrilleMontage.afficherGrille();
 
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();
 		let posX = 0;
-		let monBloc;
 
 
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
@@ -58,10 +57,7 @@ export class level1 extends Phaser.Scene {
 
 
             this.mesBlocs.push(this.leBloc);
-
-        
 		}
-		
 
 		//Créer les animations de dude - marcheGauche et marcheDroite
 		this.anims.create({
@@ -87,7 +83,6 @@ export class level1 extends Phaser.Scene {
 		//On affiche l'image au repos
 		this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height/2, "dude", 4);
 		this.dude.setOrigin(0.5, 1);
-        
         
 
 
