@@ -53,6 +53,10 @@ export class level1 extends Phaser.Scene {
             this.mesBlocs.push(this.leBloc);
 		}
 
+		this.blocLave = this.physics.add.image(0,0,"lava");
+		this.GrilleMontage.placerIndexCellule(450, this.blocLave);
+
+
 		//Créer les animations de dude - marcheGauche et marcheDroite
 		this.anims.create({
 			key: "marcheGauche",
