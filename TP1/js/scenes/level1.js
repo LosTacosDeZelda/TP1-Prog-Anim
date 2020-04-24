@@ -30,11 +30,11 @@ export class level1 extends Phaser.Scene {
 		//Variable pour détecter le saut
 		this.isJumping = false;
 
-		this.GrilleMontage = new GrilleMontage(this, 3*15, 2*15);
+		this.GrilleMontage = new GrilleMontage(this, 3*15, 2*15,0x00008b);
 	}
 
 	create() {
-		// this.GrilleMontage.afficherGrille();
+		this.GrilleMontage.afficherGrille();
 
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();

@@ -140,7 +140,7 @@ export class GrilleMontage {
 		for (let i = 1; i <= this.nbLignes; i++) {
 			for (let j = 1; j <= this.nbColonnes; j++) {
 				let indexTxt = this.scene.add.text(0, 0, index, {
-					color: "red",
+					color: "darkblue",
 					font: "bold 32px Arial"
 				});
 				indexTxt.setOrigin(0.5, 0.5);
