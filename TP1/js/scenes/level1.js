@@ -11,8 +11,11 @@ import {
 
 export class level1 extends Phaser.Scene {
 
+
 	constructor() {
 		super("level1");
+
+        
 
 		// Propriétés du jeu 
 		this.leBloc = null; //L'image du bloc
@@ -50,7 +53,11 @@ export class level1 extends Phaser.Scene {
 			posX += this.leBloc.width;
 
 
-			this.mesBlocs.push(this.leBloc);
+            this.mesBlocs.push(this.leBloc);
+
+            
+            
+            
 		}
 		
 
@@ -78,7 +85,8 @@ export class level1 extends Phaser.Scene {
 		//On affiche l'image au repos
 		this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height/2, "dude", 4);
 		this.dude.setOrigin(0.5, 1);
-		GrilleMontage.mettreEchelleRatioMin(this.dude);
+        
+        
 
 
 		//dude peut sortir des limites du jeu
@@ -86,14 +94,6 @@ export class level1 extends Phaser.Scene {
 		this.leBloc.setCollideWorldBounds(true);
 
 		//Le bloc reste immobile lors des collisions
-		
-
-		
-		
-		//Mettre de la friction sur le bloc
-		
-		
-		
 
 		//Détection des collisions entre dude et le bloc
 		for (let i = 0; i < 10; i++) {
@@ -103,11 +103,10 @@ export class level1 extends Phaser.Scene {
 			
 		}
 		
-		
-
 		this.physics.world.checkCollision.down = true;
 
-		this.cameras.main.startFollow(this.dude);
+        this.cameras.main.startFollow(this.dude);
+        //this.cameras.main.followOffset =
 
 	}
 
@@ -136,7 +135,7 @@ export class level1 extends Phaser.Scene {
 
 		if (this.lesfleches.up.isDown && this.dude.body.touching.down) {
 			console.log("Appuyé sur la fleche du haut");
-			this.dude.setVelocityY(-500);
+            this.dude.setVelocityY(-500);
 			
 		}
 		
