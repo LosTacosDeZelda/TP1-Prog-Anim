@@ -28,8 +28,8 @@ export class level1 extends Phaser.Scene {
 
 		//Variable pour détecter le saut
 		this.isJumping = false;
-
-		this.GrilleMontage = new GrilleMontage(this, 3*10*2.5, 2*10*0.5, 0x00008b);
+		// 3*10*2.5
+		this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
 	}
 
 	create() {
@@ -41,12 +41,12 @@ export class level1 extends Phaser.Scene {
 
 
 		//Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-		for (let i = 0; i < 75; i++) {
+		for (let i = 0; i < 97; i++) {
 			
             this.leBloc = this.physics.add.image(0,0, "bloc");
-            //this.leBloc.setOrigin(0.5,0.5);
+            this.leBloc.setOrigin(0.5,0.5);
 			
-			this.GrilleMontage.placerIndexCellule(450+i, this.leBloc);
+			this.GrilleMontage.placerIndexCellule(485+i, this.leBloc);
 			this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
             this.mesBlocs.push(this.leBloc);
         }
@@ -56,7 +56,8 @@ export class level1 extends Phaser.Scene {
             this.blocLave = this.physics.add.image(0,0,"lava");
 
             this.GrilleMontage.placerColonneLigne(1,i+1,this.blocLave);
-            
+			this.GrilleMontage.mettreEchelleProportionMaximale(this.blocLave, 1);
+
         }
 
 		this.blocLave = this.physics.add.image(0,0,"lava");

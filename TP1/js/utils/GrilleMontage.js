@@ -36,7 +36,7 @@ export class GrilleMontage {
 		// this.h = game.config.height*2;
 		// this.w = game.config.width*5;
 		this.h = 800;
-		this.w = 6000;
+		this.w = 8000;
 
 		//On va créer d'autres propriétés d'instances utiles:
 
