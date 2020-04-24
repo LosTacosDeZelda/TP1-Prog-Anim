@@ -15,8 +15,6 @@ export class level1 extends Phaser.Scene {
 	constructor() {
 		super("level1");
 
-        
-
 		//Arrays
 		this.mesBlocs = [];
 
@@ -36,7 +34,7 @@ export class level1 extends Phaser.Scene {
 	}
 
 	create() {
-		// this.GrilleMontage.afficherGrille();
+		this.GrilleMontage.afficherGrille();
 
 		//Instancier un objet pour détecter les touches FLÉCHÉES du clavier
 		this.lesfleches = this.input.keyboard.createCursorKeys();
@@ -57,7 +55,15 @@ export class level1 extends Phaser.Scene {
 
 
             this.mesBlocs.push(this.leBloc);
-		}
+        }
+        
+        for (let i = 0; i < 10; i++) {
+
+            this.blocLave = this.physics.add.image(0,0,"lava");
+
+            this.GrilleMontage.placerColonneLigne(1,i+1,this.blocLave);
+            
+        }
 
 		//Créer les animations de dude - marcheGauche et marcheDroite
 		this.anims.create({
@@ -118,10 +124,6 @@ export class level1 extends Phaser.Scene {
 	}
 
 	update() {
-        console.log();
-        // if (this.cameras.main.x < this.game.config.width) {
-        //     this.cameras.main.stopFollow();
-        // }
         
 		//Si aucune touche fléchée n'est enfoncée
 		//dude reste immobile		
