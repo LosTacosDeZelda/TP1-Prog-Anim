@@ -10,13 +10,16 @@ export class sceneChargement extends Phaser.Scene {
 	}
 
 	preload() {
-		//Charger l'image du jeu
+        //Charger l'image du jeu
+        this.load.setPath("medias/tiles/");
 
 		//L'image du bloc
-		this.load.image("medias/tiles/bloc");
+        this.load.image("bloc");
+        
+        this.load.setPath("medias/spritesheet");
 
 		//La feuille de sprite de Dude
-		this.load.spritesheet("dude", "medias/spritesheet/dude.png", {
+		this.load.spritesheet("dude", "dude.png", {
 			frameWidth: 48,
 			frameHeight: 64
 		});
