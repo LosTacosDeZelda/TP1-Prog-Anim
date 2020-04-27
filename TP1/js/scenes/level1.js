@@ -38,6 +38,8 @@ export class level1 extends Phaser.Scene {
 		
 		//score
 		this.score = 0;
+
+		this.posX = 0;
     }
 
     create() {
