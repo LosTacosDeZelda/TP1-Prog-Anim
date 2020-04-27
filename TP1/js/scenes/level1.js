@@ -236,7 +236,9 @@ export class level1 extends Phaser.Scene {
 
                 this.dude.setVelocityX(0);
             
-            } 
+			} 
+			if(this.lesfleches.up.isDown && this.auSol){
+
                 
 
                 this.dude.setVelocityY(-400);
@@ -261,7 +263,8 @@ export class level1 extends Phaser.Scene {
                 }
             );
         }
-       
+	   
+		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
         //this.lavaBlocks.setVelocityX(200);
 
