@@ -19,11 +19,23 @@ export class sceneChargement extends Phaser.Scene {
         
         this.load.setPath("medias/spritesheet");
 
-		//La feuille de sprite de Dude
-		this.load.spritesheet("dude", "dude.png", {
-			frameWidth: 48,
+		//Les feuilles de sprites du traveler
+		this.load.spritesheet("travelerRun", "travelerRun.png", {
+			frameWidth: 64,
 			frameHeight: 64
 		});
+
+		this.load.spritesheet("travelerIdle", "travelerIdle.png",{
+			frameWidth: 64,
+			frameHeight: 64
+		});
+
+		this.load.spritesheet("travelerJump", "travelerJump.png",{
+			frameWidth: 64,
+			frameHeight: 64
+		})
+
+		//this.load.image("travelerRun","spr_m_traveler_run_anim.gif")
 
 		//Fichier JSON du tilemap
 		this.load.tilemapTiledJSON("lvl1","../maps/TP1_tilemap3.json");
