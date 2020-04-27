@@ -20,7 +20,7 @@ window.addEventListener("load", function(){
 	}
 
     let config = {
-		backgroundColor: 0xffffff,
+		backgroundColor: 0x000000,
         scale:{
             mode: Phaser.Scale.FIT,
 			autoCenter: Phaser.Scale.CENTER_BOTH,

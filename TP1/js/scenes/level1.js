@@ -124,11 +124,11 @@ export class level1 extends Phaser.Scene {
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
         this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
-        this.dude.setOrigin(0.5, 0);
+        
 
-		this.dude.body.setSize(40,60);
-		this.dude.scale = 0.7;
-        //this.dude.
+        this.dude.body.setSize(40,65);
+        this.dude.scaleX = 0.75;
+        this.dude.scaleY = 0.75;
 
         
 
@@ -308,7 +308,7 @@ export class level1 extends Phaser.Scene {
 	   
 		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        //this.lavaBlocks.setVelocityX(200);
+        this.murLaveLayer.setX(this.posX++);
 
     }
 }
