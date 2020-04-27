@@ -109,7 +109,8 @@ export class level1 extends Phaser.Scene {
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
         this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
-        this.dude.setOrigin(0.5, 1);
+		this.dude.setOrigin(0.5, 0.5);
+		this.dude.scale = 0.7;
 
 
 
@@ -148,31 +149,36 @@ export class level1 extends Phaser.Scene {
 		this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
 		this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
 		this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
+		this.murLaveLayer = level1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
 
         // ajout des collisions
         this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
 		this.physics.add.collider(this.dude,this.obstaclesLayer,this.toucheSol,null,this);
 		this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
-		this.physics.add.overlap(this.dude,this.laveLayer,this.collisionLave,null,this)
+		this.physics.add.collider(this.dude,this.laveLayer,this.collisionLave,null,this);
+		this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this)
 
         this.solLayer.setCollisionByProperty({collides:true});
 		this.obstaclesLayer.setCollisionByProperty({collides:true});
 		this.goalLayer.setCollisionByProperty({collides:true});
+		this.laveLayer.setCollisionByProperty({collides:true});
+		this.murLaveLayer.setCollisionByProperty({collides:true});
+
 
 		// resize tiles
-		this.solLayer.setDisplaySize(5000,500);
-		this.goalLayer.setDisplaySize(5000,500);
-		this.bg_gateLayer.setDisplaySize(5000,500);
-		this.gate_backLayer.setDisplaySize(5000,500);
-		this.bgLayer.setDisplaySize(5000,500);
-		this.solLayer.setDisplaySize(5000,500);
-		this.gazonLayer.setDisplaySize(5000,500);
-		this.gate_frontLayer.setDisplaySize(5000,500);
-		this.fixesLayer.setDisplaySize(5000,500);
-		this.obstaclesLayer.setDisplaySize(5000,500);
-		this.laveLayer.setDisplaySize(5000,500);
-		this.etoilesLayer.setDisplaySize(5000,500);
-        
+		this.solLayer.setDisplaySize(5000,1000);
+		this.goalLayer.setDisplaySize(5000,1000);
+		this.bg_gateLayer.setDisplaySize(5000,1000);
+		this.gate_backLayer.setDisplaySize(5000,1000);
+		this.bgLayer.setDisplaySize(5000,1000);
+		this.solLayer.setDisplaySize(5000,1000);
+		this.gazonLayer.setDisplaySize(5000,1000);
+		this.gate_frontLayer.setDisplaySize(5000,1000);
+		this.fixesLayer.setDisplaySize(5000,1000);
+		this.obstaclesLayer.setDisplaySize(5000,1000);
+		this.laveLayer.setDisplaySize(5000,1000);
+		this.etoilesLayer.setDisplaySize(5000,1000);
+        this.murLaveLayer.setDisplaySize(5000,1000);
         
 
         //Caméra suivant le joueur (avec contraintes)
@@ -183,12 +189,12 @@ export class level1 extends Phaser.Scene {
 
     }
 
-    // collisionLave() {
-    //     console.log("player touched lava wall");
-    //     game.properties.gameOver = true;
-    //     this.dude.destroy();
+    collisionLave() {
+        console.log("player touched lava wall");
+        game.properties.gameOver = true;
+        this.dude.destroy();
         
-    // }
+    }
 
     toucheSol(){
 
@@ -222,13 +228,13 @@ export class level1 extends Phaser.Scene {
 
                 this.dude.setVelocityX(300);
                 this.dude.anims.play("run", true);
-                this.dude.scaleX = 1;
+                this.dude.flipX = false;
                 
             } else if (this.lesfleches.left.isDown) {
 
                 this.dude.setVelocityX(-300);
                 this.dude.anims.play("run", true);
-                this.dude.scaleX = -1;
+                this.dude.flipX = true;
 
             } else if (this.auSol == true && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
