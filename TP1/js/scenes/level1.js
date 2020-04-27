@@ -230,7 +230,7 @@ export class level1 extends Phaser.Scene {
 	}
 	
 	finNiveau(){
-		console.log("FINIIII");
+		console.log("C'est FINI");
 	}
 
     loadScene(){
