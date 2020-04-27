@@ -30,7 +30,7 @@ export class level1 extends Phaser.Scene {
         this.leBloc = null; //L'image du bloc
 
         //Variable pour détecter le saut
-        this.isJumping = false;
+        this.auSol = false;
         // 3*10*2.5
         this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
     }
@@ -39,23 +39,26 @@ export class level1 extends Phaser.Scene {
        // this.GrilleMontage.afficherGrille();
 
 
+        let solPhysics = this.physics.add.group();
 
         //Instancier un objet pour détecter les touches FLÉCHÉES du clavier
         this.lesfleches = this.input.keyboard.createCursorKeys();
 
 
-        let sol = this.physics.add.group();
+       
+
+
 
         //Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-        for (let i = 0; i < 100; i++) {
+       /* for (let i = 0; i < 100; i++) {
 
-            this.leBloc = sol.create(0, 0, "bloc");
+            this.leBloc = solPhysics.create(0, 0, "bloc");
             this.leBloc.setOrigin(0.5, 0.5);
 
             this.GrilleMontage.placerIndexCellule(500 + i, this.leBloc);
             this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
             this.mesBlocs.push(this.leBloc);
-        }
+        }*/
 
         this.lavaBlocks = this.physics.add.group();
 
@@ -98,7 +101,7 @@ export class level1 extends Phaser.Scene {
 
 
         //Détection des collisions entre dude et le bloc
-        sol.getChildren().forEach(bloc => {
+        solPhysics.getChildren().forEach(bloc => {
 
             this.physics.add.collider(this.dude, bloc, this.test);
             bloc.setImmovable(true);
@@ -112,8 +115,31 @@ export class level1 extends Phaser.Scene {
 
         });
 
+        
+        
+        
 
-        //Caméra suivant le joueur avec contraintes
+        //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
+        
+        let level1TileMap = this.add.tilemap("lvl1");
+
+        
+        let templeSet = level1TileMap.addTilesetImage("tile_temple","templeSet");
+
+        //Layers
+        this.solLayer = level1TileMap.createStaticLayer("Sol",[templeSet],0,255).setDepth(-1);
+        
+        this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
+
+        this.solLayer.setCollisionByProperty({collides:true});
+
+        this.solLayer.setDisplaySize(5000,500);
+        
+        
+
+        
+
+        //Caméra suivant le joueur (avec contraintes)
         this.cameras.main.startFollow(this.dude);
         this.cameras.main.setBounds(0, -500, 7000, 2500);
 
@@ -130,6 +156,12 @@ export class level1 extends Phaser.Scene {
         
     }
 
+    toucheSol(){
+
+        this.auSol = true;
+        
+    }
+
     loadScene(){
     
         this.scene.start("level1");
@@ -141,6 +173,8 @@ export class level1 extends Phaser.Scene {
 
     update() {
         console.log(game.properties.gameOver);
+
+        //this.solLayer.body.setVelocityX(40);
 
         if (game.properties.gameOver == false) {
 
@@ -158,9 +192,11 @@ export class level1 extends Phaser.Scene {
                 this.dude.setVelocityX(0);
             }
 
-            if (this.lesfleches.up.isDown && this.dude.body.touching.down) {
-                console.log("Appuyé sur la fleche du haut");
+            if (this.lesfleches.up.isDown && this.auSol == true) {
+                //console.log("Appuyé sur la fleche du haut");
+
                 this.dude.setVelocityY(-500);
+                this.auSol = false;
             }
 
             this.dude.setGravityY(1000);
@@ -183,7 +219,7 @@ export class level1 extends Phaser.Scene {
        
 
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        this.lavaBlocks.setVelocityX(200);
+        //this.lavaBlocks.setVelocityX(200);
 
 
 

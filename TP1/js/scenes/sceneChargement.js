@@ -13,9 +13,9 @@ export class sceneChargement extends Phaser.Scene {
         //Charger l'image du jeu
         this.load.setPath("medias/");
 
-		//L'image du bloc
-        this.load.image("bloc","tiles/bloc.png");
-        this.load.image("lava","tiles/lava.png");
+		//L'image des blocs
+        this.load.image("bloc","tilesets/bloc.png");
+        this.load.image("lava","tilesets/lava.png");
         
         this.load.setPath("medias/spritesheet");
 
@@ -24,6 +24,12 @@ export class sceneChargement extends Phaser.Scene {
 			frameWidth: 48,
 			frameHeight: 64
 		});
+
+		//Fichier JSON du tilemap
+		this.load.tilemapTiledJSON("lvl1","../maps/TP1progAnim.json");
+
+		//Tilesets
+		this.load.image("templeSet","../tilesets/tile_temple.png");
 	}
 
 	create() {
