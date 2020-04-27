@@ -111,13 +111,10 @@ export class level1 extends Phaser.Scene {
         //Detection de type trigger avec le joueur et le mur de lave
         this.lavaBlocks.getChildren().forEach(bloc => {
 
-            this.physics.add.overlap(bloc, this.dude, this.collisionMurLave, null, this);
+            this.physics.add.overlap(bloc, this.dude, this.collisionLave, null, this);
 
         });
 
-        
-        
-        
 
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
         
@@ -130,21 +127,25 @@ export class level1 extends Phaser.Scene {
 		//Layers
 		this.goalLayer = level1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
 		this.bg_gateLayer = level1TileMap.createStaticLayer("bg_gate", [templeSet], 0, 255).setDepth(-2);
-		this.gate_backLayer = level1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255);
+		this.gate_backLayer = level1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255).setDepth(-1);
 		this.bgLayer = level1TileMap.createStaticLayer("bg", [templeSet], 0, 255).setDepth(-1);
 		this.solLayer = level1TileMap.createStaticLayer("sol", [templeSet],0,255);
-		this.gazonLayer = level1TileMap.createStaticLayer("gazon", [templeSet], 0, 255);
+		this.gazonLayer = level1TileMap.createStaticLayer("gazon", [templeSet], 0, 255).setDepth(-1);
 		this.gate_frontLayer = level1TileMap.createStaticLayer("gate_front", [templeSet], 0, 255);
 		this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255);
 		this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
 		this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
 		this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
 
-        
+        // ajout des collisions
         this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
+		this.physics.add.collider(this.dude,this.obstaclesLayer,this.toucheSol,null,this);
+		this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
+		this.physics.add.overlap(this.dude,this.laveLayer,this.collisionLave,null,this)
 
         this.solLayer.setCollisionByProperty({collides:true});
-
+		this.obstaclesLayer.setCollisionByProperty({collides:true});
+		this.goalLayer.setCollisionByProperty({collides:true});
 
 		// resize tiles
 		this.solLayer.setDisplaySize(5000,500);
@@ -168,22 +169,24 @@ export class level1 extends Phaser.Scene {
 
         this.cameras.main.setScene(this);
 
-
-
     }
 
-    collisionMurLave() {
-        console.log("player touched lava wall");
-        game.properties.gameOver = true;
-        this.dude.destroy();
+    // collisionLave() {
+    //     console.log("player touched lava wall");
+    //     game.properties.gameOver = true;
+    //     this.dude.destroy();
         
-    }
+    // }
 
     toucheSol(){
 
         this.auSol = true;
         
-    }
+	}
+	
+	finNiveau(){
+		console.log("FINIIII");
+	}
 
     loadScene(){
     
@@ -195,7 +198,7 @@ export class level1 extends Phaser.Scene {
 
 
     update() {
-        console.log(game.properties.gameOver);
+        //console.log(game.properties.gameOver);
 
         //this.solLayer.body.setVelocityX(40);
 
@@ -218,7 +221,7 @@ export class level1 extends Phaser.Scene {
             if (this.lesfleches.up.isDown && this.auSol == true) {
                 //console.log("Appuyé sur la fleche du haut");
 
-                this.dude.setVelocityY(-500);
+                this.dude.setVelocityY(-400);
                 this.auSol = false;
             }
 
@@ -234,17 +237,11 @@ export class level1 extends Phaser.Scene {
                     callback: this.loadScene,
                     callbackScope: this
                 }
-
             );
-            
         }
-
        
-
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
         //this.lavaBlocks.setVelocityX(200);
-
-
 
     }
 }
