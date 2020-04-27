@@ -73,29 +73,42 @@ export class level1 extends Phaser.Scene {
         }
 
 
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("travelerIdle",{
+                start: 0,
+                end: 7
+            }),
+            frameRate: 10,
+            repeat:-1
+
+        });
+
         //Créer les animations de dude - marcheGauche et marcheDroite
         this.anims.create({
-            key: "marcheGauche",
-            frames: this.anims.generateFrameNumbers('dude', {
+            key: "run",
+            frames: this.anims.generateFrameNumbers('travelerRun',{
                 start: 0,
-                end: 3
+                end: 5
             }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
-            key: "marcheDroite",
-            frames: this.anims.generateFrameNumbers('dude', {
-                frames: [5, 6, 7, 8]
+            key: "jump",
+            frames: this.anims.generateFrameNumbers("travelerJump",{
+                start: 0,
+                end: 19
             }),
-            frameRate: 10,
-            repeat: -1
+            frameRate:10,
+            repeat:1
         });
+
 
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
-        this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "dude", 4);
+        this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
         this.dude.setOrigin(0.5, 1);
 
 
@@ -115,10 +128,6 @@ export class level1 extends Phaser.Scene {
 
         });
 
-        
-        
-        
-
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
         
         let level1TileMap = this.add.tilemap("lvl1");
@@ -136,6 +145,7 @@ export class level1 extends Phaser.Scene {
         this.solLayer.setCollisionByProperty({collides:true});
 
         this.solLayer.setDisplaySize(5000,500);
+        this.fixesLayer.setDisplaySize(5000,500);
         
         
 
@@ -174,31 +184,43 @@ export class level1 extends Phaser.Scene {
 
 
     update() {
-        console.log(game.properties.gameOver);
+        //console.log(game.properties.gameOver);
 
-        //this.solLayer.body.setVelocityX(40);
+        console.log(this.auSol);
+        this.dude.setOrigin(.5,.5);
 
         if (game.properties.gameOver == false) {
 
             //Si aucune touche fléchée n'est enfoncée dude reste immobile		
             if (this.lesfleches.right.isDown) {
+
                 this.dude.setVelocityX(300);
-                this.dude.anims.play("marcheDroite", true);
+                this.dude.anims.play("run", true);
+                this.dude.scaleX = 1;
+                
             } else if (this.lesfleches.left.isDown) {
+
                 this.dude.setVelocityX(-300);
-                this.dude.anims.play("marcheGauche", true);
-            } else {
-                this.dude.anims.stop();
-                this.dude.setFrame(4);
+                this.dude.anims.play("run", true);
+                this.dude.scaleX = -1;
+
+            } else if (this.auSol == true && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
+
+                this.dude.anims.play("idle",true);
 
                 this.dude.setVelocityX(0);
-            }
+            
+            } 
+                
 
-            if (this.lesfleches.up.isDown && this.auSol == true) {
-                //console.log("Appuyé sur la fleche du haut");
-
+            if (this.lesfleches.up.isDown && this.auSol == true){
+               
                 this.dude.setVelocityY(-500);
                 this.auSol = false;
+            }
+
+            if (this.lesfleches.up.isDown) {
+                this.dude.anims.play("jump",true);
             }
 
             this.dude.setGravityY(1000);
