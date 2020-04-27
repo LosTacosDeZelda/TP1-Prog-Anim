@@ -127,18 +127,39 @@ export class level1 extends Phaser.Scene {
         let templeSet = level1TileMap.addTilesetImage("Jungle","templeSet");
         let customSet = level1TileMap.addTilesetImage("customs","customSet");
 
-        //Layers
-        this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255);
-        this.solLayer = level1TileMap.createStaticLayer("sol", [templeSet],0,255);
+		//Layers
+		this.goalLayer = level1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
+		this.bg_gateLayer = level1TileMap.createStaticLayer("bg_gate", [templeSet], 0, 255).setDepth(-2);
+		this.gate_backLayer = level1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255);
+		this.bgLayer = level1TileMap.createStaticLayer("bg", [templeSet], 0, 255).setDepth(-1);
+		this.solLayer = level1TileMap.createStaticLayer("sol", [templeSet],0,255);
+		this.gazonLayer = level1TileMap.createStaticLayer("gazon", [templeSet], 0, 255);
+		this.gate_frontLayer = level1TileMap.createStaticLayer("gate_front", [templeSet], 0, 255);
+		this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255);
+		this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
+		this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
+		this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
+
         
         this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
 
         this.solLayer.setCollisionByProperty({collides:true});
 
-        this.solLayer.setDisplaySize(5000,500);
-        
-        
 
+		// resize tiles
+		this.solLayer.setDisplaySize(5000,500);
+		this.goalLayer.setDisplaySize(5000,500);
+		this.bg_gateLayer.setDisplaySize(5000,500);
+		this.gate_backLayer.setDisplaySize(5000,500);
+		this.bgLayer.setDisplaySize(5000,500);
+		this.solLayer.setDisplaySize(5000,500);
+		this.gazonLayer.setDisplaySize(5000,500);
+		this.gate_frontLayer.setDisplaySize(5000,500);
+		this.fixesLayer.setDisplaySize(5000,500);
+		this.obstaclesLayer.setDisplaySize(5000,500);
+		this.laveLayer.setDisplaySize(5000,500);
+		this.etoilesLayer.setDisplaySize(5000,500);
+        
         
 
         //Caméra suivant le joueur (avec contraintes)
