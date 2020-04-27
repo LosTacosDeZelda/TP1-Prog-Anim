@@ -32,7 +32,10 @@ export class level1 extends Phaser.Scene {
         //Variable pour détecter le saut
         this.auSol = false;
         // 3*10*2.5
-        this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
+		this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
+		
+		//score
+		this.score = 0;
     }
 
     create() {
@@ -123,7 +126,8 @@ export class level1 extends Phaser.Scene {
         this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
         this.dude.setOrigin(0.5, 0);
 
-        this.dude.body.setSize(40,65);
+		this.dude.body.setSize(40,60);
+		this.dude.scale = 0.7;
         //this.dude.
 
         
@@ -153,7 +157,7 @@ export class level1 extends Phaser.Scene {
         let templeSet = level1TileMap.addTilesetImage("Jungle","templeSet");
         let customSet = level1TileMap.addTilesetImage("customs","customSet");
 
-		//Layers
+		//affichage des Layers
 		this.goalLayer = level1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
 		this.bg_gateLayer = level1TileMap.createStaticLayer("bg_gate", [templeSet], 0, 255).setDepth(-2);
 		this.gate_backLayer = level1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255).setDepth(-1);
@@ -173,15 +177,16 @@ export class level1 extends Phaser.Scene {
 		this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
 		this.physics.add.collider(this.dude,this.laveLayer,this.collisionLave,null,this);
 		this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this)
+		this.physics.add.collider(this.dude,this.etoilesLayer,this.ramasseEtoile,null,this);
 
         this.solLayer.setCollisionByProperty({collides:true});
 		this.obstaclesLayer.setCollisionByProperty({collides:true});
 		this.goalLayer.setCollisionByProperty({collides:true});
 		this.laveLayer.setCollisionByProperty({collides:true});
 		this.murLaveLayer.setCollisionByProperty({collides:true});
+		this.etoilesLayer.setCollisionByProperty({collides:true});
 
-
-		// resize tiles
+		// resize tiles *********************==a optimiser==********************
 		this.solLayer.setDisplaySize(5000,1000);
 		this.goalLayer.setDisplaySize(5000,1000);
 		this.bg_gateLayer.setDisplaySize(5000,1000);
@@ -210,7 +215,13 @@ export class level1 extends Phaser.Scene {
         game.properties.gameOver = true;
         this.dude.destroy();
         
-    }
+	}
+	
+	/*******************************== a ameliorer==****************************************/
+	ramasseEtoile(){
+		this.score +=1;
+		// this.etoilesLayer.destroy();
+	}
 
     toucheSol(){
 

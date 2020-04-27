@@ -43,7 +43,7 @@ export class sceneChargement extends Phaser.Scene {
 		//this.load.image("travelerRun","spr_m_traveler_run_anim.gif")
 
 		//Fichier JSON du tilemap
-		this.load.tilemapTiledJSON("lvl1","../maps/TP1_tilemap3.json");
+		this.load.tilemapTiledJSON("lvl1","../maps/TP1_tilemap4.json");
 
 		//Tilesets
 		this.load.image("templeSet","../tilesets/tile_temple.png");
