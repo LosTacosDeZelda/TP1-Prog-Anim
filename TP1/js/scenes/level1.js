@@ -31,7 +31,9 @@ export class level1 extends Phaser.Scene {
 
         //Variable pour détecter le saut
         this.auSol = false;
-        // 3*10*2.5
+        
+        this.posX = 0;
+
         this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
     }
 
@@ -121,10 +123,11 @@ export class level1 extends Phaser.Scene {
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
         this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
-        this.dude.setOrigin(0.5, 0);
+        
 
         this.dude.body.setSize(40,65);
-        //this.dude.
+        this.dude.scaleX = 0.75;
+        this.dude.scaleY = 0.75;
 
         
 
@@ -241,7 +244,7 @@ export class level1 extends Phaser.Scene {
 
                 if (this.lesfleches.up.isUp && this.auSol) {
                     this.dude.anims.play("run", true);
-                    this.dude.scaleX = 1;
+                    this.dude.scaleX = 0.75;
                 }
                 
                 
@@ -251,7 +254,7 @@ export class level1 extends Phaser.Scene {
 
                 if (this.lesfleches.up.isUp && this.auSol) {
                     this.dude.anims.play("run", true);
-                    this.dude.scaleX = -1;
+                    this.dude.scaleX = -0.75;
                 }
                
 
@@ -292,7 +295,7 @@ export class level1 extends Phaser.Scene {
 	   
 		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        //this.lavaBlocks.setVelocityX(200);
+        this.murLaveLayer.setX(this.posX++);
 
     }
 }
