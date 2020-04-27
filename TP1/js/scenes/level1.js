@@ -64,15 +64,6 @@ export class level1 extends Phaser.Scene {
 
         this.lavaBlocks = this.physics.add.group();
 
-        //Instancier mur de lave
-        for (let i = 0; i < 10; i++) {
-
-            this.blocLave = this.lavaBlocks.create(0, 0, "lava");
-
-            this.GrilleMontage.placerColonneLigne(1, i + 1, this.blocLave);
-            this.GrilleMontage.mettreEchelleProportionMaximale(this.blocLave, 1);
-
-        }
 
         //Créer les animations du traveler
         this.anims.create({
@@ -122,7 +113,7 @@ export class level1 extends Phaser.Scene {
 
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
-        this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
+        this.dude = this.physics.add.sprite(400,500, "travelerIdle", 0);
         
 
         this.dude.body.setSize(40,65);
@@ -168,20 +159,29 @@ export class level1 extends Phaser.Scene {
 		this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
 		this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
 		this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
-		this.murLaveLayer = level1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+        this.murLaveLayer = level1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+        
 
         // ajout des collisions
         this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
 		this.physics.add.collider(this.dude,this.obstaclesLayer,this.toucheSol,null,this);
 		this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
 		this.physics.add.collider(this.dude,this.laveLayer,this.collisionLave,null,this);
-		this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this)
+        this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this);
+
+        //this.physics.collideTiles(this.dude,this.murLaveLayer.getti,this.collisionLave,null,this);
+
+        this.physics.collide(this.dude,this.murLaveLayer,this.collisionLave,null,this);
+        
+        
 
         this.solLayer.setCollisionByProperty({collides:true});
 		this.obstaclesLayer.setCollisionByProperty({collides:true});
 		this.goalLayer.setCollisionByProperty({collides:true});
 		this.laveLayer.setCollisionByProperty({collides:true});
-		this.murLaveLayer.setCollisionByProperty({collides:true});
+        this.murLaveLayer.setCollisionByProperty({collides:true});
+        
+        
 
 
 		// resize tiles
@@ -222,7 +222,8 @@ export class level1 extends Phaser.Scene {
 	}
 	
 	finNiveau(){
-		console.log("FINIIII");
+        console.log("FINIIII");
+        game.properties.gameOver = true;
 	}
 
     loadScene(){
@@ -296,11 +297,13 @@ export class level1 extends Phaser.Scene {
                     callbackScope: this
                 }
             );
+
+            this.posX = 0;
         }
 	   
 		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
         this.murLaveLayer.setX(this.posX++);
-
     }
+    
 }
