@@ -72,7 +72,7 @@ export class level1 extends Phaser.Scene {
 
         }
 
-
+        //Créer les animations du traveler
         this.anims.create({
             key: "idle",
             frames: this.anims.generateFrameNumbers("travelerIdle",{
@@ -84,7 +84,7 @@ export class level1 extends Phaser.Scene {
 
         });
 
-        //Créer les animations de dude - marcheGauche et marcheDroite
+        
         this.anims.create({
             key: "run",
             frames: this.anims.generateFrameNumbers('travelerRun',{
@@ -101,16 +101,32 @@ export class level1 extends Phaser.Scene {
                 start: 0,
                 end: 19
             }),
+            frameRate:20,
+            repeat:1,
+            
+        });
+
+        this.anims.create({
+            key: "land",
+            frames: this.anims.generateFrameNumbers("travelerLand",{
+                start:0,
+                end:1
+            }),
             frameRate:10,
             repeat:1
-        });
+
+        })
 
 
         //Instancier dude comme entité physique au 2/3 et en bas de la scène
         //On affiche l'image au repos
         this.dude = this.physics.add.sprite(game.config.width * 2 / 3, game.config.height / 2, "travelerRun", 4);
-		this.dude.setOrigin(0.5, 0.5);
-		this.dude.scale = 0.7;
+        this.dude.setOrigin(0.5, 0);
+
+        this.dude.body.setSize(40,65);
+        //this.dude.
+
+        
 
 
 
@@ -218,7 +234,7 @@ export class level1 extends Phaser.Scene {
     update() {
         //console.log(game.properties.gameOver);
 
-        console.log(this.auSol);
+        
         this.dude.setOrigin(.5,.5);
 
         if (game.properties.gameOver == false) {
@@ -227,14 +243,22 @@ export class level1 extends Phaser.Scene {
             if (this.lesfleches.right.isDown) {
 
                 this.dude.setVelocityX(300);
-                this.dude.anims.play("run", true);
-                this.dude.flipX = false;
+
+                if (this.lesfleches.up.isUp && this.auSol) {
+                    this.dude.anims.play("run", true);
+					this.dude.flipX = false;
+                }
+                
                 
             } else if (this.lesfleches.left.isDown) {
 
                 this.dude.setVelocityX(-300);
-                this.dude.anims.play("run", true);
-                this.dude.flipX = true;
+
+                if (this.lesfleches.up.isUp && this.auSol) {
+                    this.dude.anims.play("run", true);
+					this.dude.flipX = true;
+                }
+               
 
             } else if (this.auSol == true && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
@@ -245,14 +269,15 @@ export class level1 extends Phaser.Scene {
 			} 
 			if(this.lesfleches.up.isDown && this.auSol){
 
-                
-
                 this.dude.setVelocityY(-400);
                 this.auSol = false;
             }
 
             if (this.lesfleches.up.isDown) {
+
                 this.dude.anims.play("jump",true);
+
+                this.dude.anims.getProgress();
             }
 
             this.dude.setGravityY(1000);
