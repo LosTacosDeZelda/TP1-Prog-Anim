@@ -36,6 +36,8 @@ export class level1 extends Phaser.Scene {
 		
 		//score
 		this.score = 0;
+
+		this.posX = 0;
     }
 
     create() {
@@ -307,7 +309,7 @@ export class level1 extends Phaser.Scene {
 	   
 		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        this.murLaveLayer.setX(this.posX++);
+        this.murLaveLayer.setX(this.posX+=3);
     }
     
 }
