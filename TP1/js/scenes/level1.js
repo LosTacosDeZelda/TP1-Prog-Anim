@@ -31,8 +31,10 @@ export class level1 extends Phaser.Scene {
 
         //Variable pour détecter le saut
         this.auSol = false;
-        // 3*10*2.5
-		this.GrilleMontage = new GrilleMontage(this, 100, 10, 0x00008b);
+
+        this.posX = 0;
+
+        this.startWall = false;
 		
 		//score
 		this.score = 0;
@@ -204,6 +206,14 @@ export class level1 extends Phaser.Scene {
 
         this.cameras.main.setScene(this);
 
+        this.time.addEvent(
+            {
+                delay: 2000,
+                callback: this.startLavaWall,
+                callbackScope: this
+            }
+        )
+
     }
 
     collisionLave() {
@@ -233,9 +243,17 @@ export class level1 extends Phaser.Scene {
     loadScene(){
     
         this.scene.start("level1");
+        this.startWall = false;
         //Petit probleme avec le reload, pour etre sur qu'il se fasse après, je l'ai fait ici
-        setTimeout(function f() {game.properties.gameOver = false;},1);
+        setTimeout(function f() {
+            game.properties.gameOver = false;
+        
+        },1);
     
+    }
+
+    startLavaWall(){
+        this.startWall = true;
     }
 
 
@@ -302,12 +320,15 @@ export class level1 extends Phaser.Scene {
                 }
             );
 
-            this.posX = 0;
+           this.posX = 0;
         }
 	   
 		
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        this.murLaveLayer.setX(this.posX++);
+        if (this.startWall == true) {
+            this.murLaveLayer.setX(this.posX += 1.75);
+        }
+        
     }
     
 }
