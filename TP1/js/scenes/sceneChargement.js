@@ -26,10 +26,11 @@ export class sceneChargement extends Phaser.Scene {
 		});
 
 		//Fichier JSON du tilemap
-		this.load.tilemapTiledJSON("lvl1","../maps/TP1progAnim.json");
+		this.load.tilemapTiledJSON("lvl1","../maps/TP1tilemap.json");
 
 		//Tilesets
 		this.load.image("templeSet","../tilesets/tile_temple.png");
+		this.load.image("customSet","../tilesets/customAssets.png");
 	}
 
 	create() {
