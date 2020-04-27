@@ -124,16 +124,17 @@ export class level1 extends Phaser.Scene {
         let level1TileMap = this.add.tilemap("lvl1");
 
         
-        let templeSet = level1TileMap.addTilesetImage("tile_temple","templeSet");
+        //let templeSet = level1TileMap.addTilesetImage("Jungle","templeSet");
+        //let customSet = level1TileMap.addTilesetImage("customs","customSet");
 
         //Layers
-        this.solLayer = level1TileMap.createStaticLayer("Sol",[templeSet],0,255).setDepth(-1);
+        //this.solLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255);
         
-        this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
+        //this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
 
-        this.solLayer.setCollisionByProperty({collides:true});
+        //this.solLayer.setCollisionByProperty({collides:true});
 
-        this.solLayer.setDisplaySize(5000,500);
+        //this.solLayer.setDisplaySize(5000,500);
         
         
 
