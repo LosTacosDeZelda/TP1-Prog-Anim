@@ -33,6 +33,11 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.spritesheet("travelerJump", "travelerJump.png",{
 			frameWidth: 64,
 			frameHeight: 64
+		});
+
+		this.load.spritesheet("travelerLand","travelerLand.png",{
+			frameWidth:64,
+			frameHeight:64
 		})
 
 		//this.load.image("travelerRun","spr_m_traveler_run_anim.gif")
