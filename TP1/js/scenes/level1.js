@@ -1,9 +1,4 @@
 //Importation des fichiers classes ou fichiers nécessaires
-import {
-    GrilleMontage
-} from "../utils/GrilleMontage.js";
-
-
 
 
 /**
@@ -16,18 +11,14 @@ export class level1 extends Phaser.Scene {
     constructor() {
         super("level1");
 
-        
-
         //Arrays
-        this.mesBlocs = [];
+        this.layers = [];
 
         //Les flèches du clavier	
         this.lesfleches = null; //Les touches fléchées du clavier
 
         //GameObjects
         this.dude = null;
-        this.blocLave = null;
-        this.leBloc = null; //L'image du bloc
 
         //Variable pour détecter le saut
         this.auSol = false;
@@ -50,24 +41,6 @@ export class level1 extends Phaser.Scene {
 
         //Instancier un objet pour détecter les touches FLÉCHÉES du clavier
         this.lesfleches = this.input.keyboard.createCursorKeys();
-
-
-       
-
-
-
-        //Instancier l'image du bloc comme ENTITÉ PHYSIQUE en bas et au tier de l'écran
-       /* for (let i = 0; i < 100; i++) {
-
-            this.leBloc = solPhysics.create(0, 0, "bloc");
-            this.leBloc.setOrigin(0.5, 0.5);
-
-            this.GrilleMontage.placerIndexCellule(500 + i, this.leBloc);
-            this.GrilleMontage.mettreEchelleProportionMaximale(this.leBloc, 1);
-            this.mesBlocs.push(this.leBloc);
-        }*/
-
-        this.lavaBlocks = this.physics.add.group();
 
 
         //Créer les animations du traveler
@@ -116,41 +89,23 @@ export class level1 extends Phaser.Scene {
         })
 
 
-        //Instancier dude comme entité physique au 2/3 et en bas de la scène
-        //On affiche l'image au repos
-        this.dude = this.physics.add.sprite(400,500, "travelerIdle", 0);
+        //Instancier l'aventurier comme entité physique au debut du niveau
+        //On affiche l'image au repos de celui-ci
+        this.dude = this.physics.add.sprite(800,680, "travelerIdle", 0);
         
 
-        this.dude.body.setSize(40,65);
+        this.dude.body.setSize(40,55);
         this.dude.scaleX = 0.75;
         this.dude.scaleY = 0.75;
 
-        
-
-
-
-        //Détection des collisions entre dude et le bloc
-        solPhysics.getChildren().forEach(bloc => {
-
-            this.physics.add.collider(this.dude, bloc, this.test);
-            bloc.setImmovable(true);
-
-        });
-
-        //Detection de type trigger avec le joueur et le mur de lave
-        this.lavaBlocks.getChildren().forEach(bloc => {
-
-            this.physics.add.overlap(bloc, this.dude, this.collisionLave, null, this);
-
-        });
 
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
-        
         let level1TileMap = this.add.tilemap("lvl1");
-
         
         let templeSet = level1TileMap.addTilesetImage("Jungle","templeSet");
         let customSet = level1TileMap.addTilesetImage("customs","customSet");
+
+        
 
 		//affichage des Layers
 		this.goalLayer = level1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
@@ -160,51 +115,51 @@ export class level1 extends Phaser.Scene {
 		this.solLayer = level1TileMap.createStaticLayer("sol", [templeSet],0,255);
 		this.gazonLayer = level1TileMap.createStaticLayer("gazon", [templeSet], 0, 255).setDepth(-1);
 		this.gate_frontLayer = level1TileMap.createStaticLayer("gate_front", [templeSet], 0, 255);
-		this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255);
+		this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg",[templeSet],0,255).setDepth(-1);
 		this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
 		this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
 		this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
         this.murLaveLayer = level1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+
+        this.layers.push(this.goalLayer,this.bg_gateLayer,this.gate_backLayer,this.gate_frontLayer,this.bgLayer,this.solLayer,this.gazonLayer,this.fixesLayer,this.obstaclesLayer,this.laveLayer,this.etoilesLayer,this.murLaveLayer);
+
+        
         
 
         // ajout des collisions
         this.physics.add.collider(this.dude,this.solLayer,this.toucheSol,null,this);
-		this.physics.add.collider(this.dude,this.obstaclesLayer,this.toucheSol,null,this);
-		this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
+        this.physics.add.collider(this.dude,this.obstaclesLayer,this.toucheSol,null,this);
+        
+        this.physics.add.collider(this.dude,this.goalLayer,this.finNiveau,null,this);
+        
 		this.physics.add.collider(this.dude,this.laveLayer,this.collisionLave,null,this);
-		this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this)
+        this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this)
+        
 		this.physics.add.collider(this.dude,this.etoilesLayer,this.ramasseEtoile,null,this);
-        this.physics.add.collider(this.dude,this.murLaveLayer,this.collisionLave,null,this);
 
         
-        
-
         this.solLayer.setCollisionByProperty({collides:true});
-		this.obstaclesLayer.setCollisionByProperty({collides:true});
+        this.obstaclesLayer.setCollisionByProperty({collides:true});
+        
+
 		this.goalLayer.setCollisionByProperty({collides:true});
 		this.laveLayer.setCollisionByProperty({collides:true});
-		this.murLaveLayer.setCollisionByProperty({collides:true});
-		this.etoilesLayer.setCollisionByProperty({collides:true});
+        this.etoilesLayer.setCollisionByProperty({collides:true});
+        
+        //Cette methode permet dappeler une fonction quand quelque chose collide avec la layer 
+        //Il faut donner les index des tiles que tu veux verifier
+        this.murLaveLayer.setTileIndexCallback([139,2684354698],this.collisionLave,this);
 
 		// resize tiles *********************==a optimiser==********************
-		this.solLayer.setDisplaySize(5000,1000);
-		this.goalLayer.setDisplaySize(5000,1000);
-		this.bg_gateLayer.setDisplaySize(5000,1000);
-		this.gate_backLayer.setDisplaySize(5000,1000);
-		this.bgLayer.setDisplaySize(5000,1000);
-		this.solLayer.setDisplaySize(5000,1000);
-		this.gazonLayer.setDisplaySize(5000,1000);
-		this.gate_frontLayer.setDisplaySize(5000,1000);
-		this.fixesLayer.setDisplaySize(5000,1000);
-		this.obstaclesLayer.setDisplaySize(5000,1000);
-		this.laveLayer.setDisplaySize(5000,1000);
-		this.etoilesLayer.setDisplaySize(5000,1000);
-        this.murLaveLayer.setDisplaySize(5000,1000);
+
+        this.layers.forEach(layer => {
+            layer.setDisplaySize(5000,833);
+        });
         
 
         //Caméra suivant le joueur (avec contraintes)
         this.cameras.main.startFollow(this.dude);
-        this.cameras.main.setBounds(0, -500, 7000, 2500);
+        this.cameras.main.setBounds(500, 255, 4075, 1500);
 
         this.cameras.main.setScene(this);
 
@@ -246,6 +201,7 @@ export class level1 extends Phaser.Scene {
     
         this.scene.start("level1");
         this.startWall = false;
+
         //Petit probleme avec le reload, pour etre sur qu'il se fasse après, je l'ai fait ici
         setTimeout(function f() {
             game.properties.gameOver = false;
@@ -260,19 +216,19 @@ export class level1 extends Phaser.Scene {
 
 
     update() {
-        //console.log(game.properties.gameOver);
-
+        
+        console.log(this.layers[0]);
         
         this.dude.setOrigin(.5,.5);
 
         if (game.properties.gameOver == false) {
-
+            
             //Si aucune touche fléchée n'est enfoncée dude reste immobile		
             if (this.lesfleches.right.isDown) {
 
                 this.dude.setVelocityX(300);
 
-                if (this.lesfleches.up.isUp && this.auSol) {
+                if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
                     this.dude.anims.play("run", true);
 					this.dude.flipX = false;
                 }
@@ -282,20 +238,20 @@ export class level1 extends Phaser.Scene {
 
                 this.dude.setVelocityX(-300);
 
-                if (this.lesfleches.up.isUp && this.auSol) {
+                if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
                     this.dude.anims.play("run", true);
 					this.dude.flipX = true;
                 }
                
 
-            } else if (this.auSol == true && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
+            } else if (this.dude.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
                 this.dude.anims.play("idle",true);
 
                 this.dude.setVelocityX(0);
             
 			} 
-			if(this.lesfleches.up.isDown && this.auSol){
+			if(this.lesfleches.up.isDown && this.dude.body.blocked.down){
 
                 this.dude.setVelocityY(-400);
                 this.auSol = false;
