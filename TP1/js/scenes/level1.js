@@ -219,44 +219,52 @@ export class level1 extends Phaser.Scene {
         
         console.log(this.layers[0]);
         
-        this.dude.setOrigin(.5,.5);
-
+		this.dude.setOrigin(.5,.5);
+		
+		// bouger seulement si il n'est pas mort
         if (game.properties.gameOver == false) {
-            
-            //Si aucune touche fléchée n'est enfoncée dude reste immobile		
+			
+			// bouger vers la droite
             if (this.lesfleches.right.isDown) {
 
-                this.dude.setVelocityX(300);
-
+				this.dude.setVelocityX(300);
+				
+				// faire jouer l'animationde cours si le perso touche le sol
                 if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
                     this.dude.anims.play("run", true);
 					this.dude.flipX = false;
                 }
                 
-                
+               // bouger vers la gauche 
             } else if (this.lesfleches.left.isDown) {
 
                 this.dude.setVelocityX(-300);
-
+				// faire jouer l'animationde cours si le perso touche le sol
                 if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
                     this.dude.anims.play("run", true);
 					this.dude.flipX = true;
                 }
                
-
+            //Si aucune touche fléchée n'est enfoncée dude reste immobile		
             } else if (this.dude.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
-                this.dude.anims.play("idle",true);
+                this.dude.anims.play("idle",true);            
+			}
 
-                this.dude.setVelocityX(0);
-            
-			} 
+			/*Fix de mouvements aériens*/
+			if(this.lesfleches.left.isUp && this.lesfleches.right.isUp){
+				this.dude.setVelocityX(0);
+
+			}
+
+			// mouvement du saut
 			if(this.lesfleches.up.isDown && this.dude.body.blocked.down){
 
                 this.dude.setVelocityY(-400);
                 this.auSol = false;
             }
-
+			
+			// animation du saut
             if (this.lesfleches.up.isDown) {
 
                 this.dude.anims.play("jump",true);
@@ -264,6 +272,7 @@ export class level1 extends Phaser.Scene {
                 this.dude.anims.getProgress();
             }
 
+			// gravité
             this.dude.setGravityY(1000);
         }
         else{
