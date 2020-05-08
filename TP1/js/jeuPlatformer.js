@@ -15,8 +15,8 @@ window.addEventListener("load", function(){
 	//Et si on est sur un mobile (tablette ou téléphone), on re-dimensionne le jeu
 	if (navigator.userAgent.includes("Mobile") || navigator.userAgent.includes("Tablet")) {
 		//8console.log("Le jeu est lu sur un mobile... on change les dimensions...");
-		largeur = Math.min(window.innerWidth, window.innerHeight);
-		hauteur = Math.max(window.innerWidth, window.innerHeight);
+		largeur = Math.max(window.innerWidth, window.innerHeight);
+		hauteur = Math.min(window.innerWidth, window.innerHeight);
 	}
 
     let config = {

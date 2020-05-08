@@ -10,6 +10,14 @@ export class sceneChargement extends Phaser.Scene {
 	}
 
 	preload() {
+
+		//Charger le plugin pour le joystic virtuel
+		let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+		this.load.plugin('rexvirtualjoystickplugin', url, true);
+
+		//this.load.plugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',true);
+		this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+
         //Charger l'image du jeu
         this.load.setPath("medias/");
 
