@@ -352,29 +352,25 @@ export class level1 extends Phaser.Scene {
 
             this.player.setGravityY(1000);
 
+            //Le mur de lave avance et poursuit le joueur tout au long du niveau
+            if (this.startWall == true) {
+                this.murLaveLayer.setX(this.posX += 1.75);
+            }
+
+        } else {
+
+            //setTimeout(this.loadScene,2000);
+            //Delai avant que le scene reload
+            this.time.addEvent(
+                {
+                    delay: 0,
+                    callback: this.loadScene,
+                    callbackScope: this
+                }
+            );
+
+            this.posX = 0;
         }
-
-
-
-        //Le mur de lave avance et poursuit le joueur tout au long du niveau
-        if (this.startWall == true) {
-            this.murLaveLayer.setX(this.posX += 1.75);
-        }
-
-    } else {
-
-    //setTimeout(this.loadScene,2000);
-    //Delai avant que le scene reload
-    this.time.addEvent(
-        {
-            delay: 0,
-            callback: this.loadScene,
-            callbackScope: this
-        }
-    );
-
-    this.posX = 0;
-}
 
     }
 }
