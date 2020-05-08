@@ -269,7 +269,7 @@ export class level1 extends Phaser.Scene {
 
     update() {
 
-        this.dude.setOrigin(.5, .5);
+        this.player.setOrigin(.5, .5);
 
         // bouger seulement si il n'est pas mort
         if (game.properties.gameOver == false) {
@@ -279,38 +279,38 @@ export class level1 extends Phaser.Scene {
                 // bouger vers la droite
                 if (this.lesfleches.right.isDown) {
 
-                    this.dude.setVelocityX(300);
+                    this.player.setVelocityX(300);
 
                     // faire jouer l'animationde cours si le perso touche le sol
-                    if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
-                        this.dude.anims.play("run", true);
-                        this.dude.flipX = false;
+                    if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
+                        this.player.anims.play("run", true);
+                        this.player.flipX = false;
                     }
 
                     // bouger vers la gauche 
                 } else if (this.lesfleches.left.isDown) {
 
-                    this.dude.setVelocityX(-300);
+                    this.player.setVelocityX(-300);
                     // faire jouer l'animationde cours si le perso touche le sol
-                    if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
-                        this.dude.anims.play("run", true);
-                        this.dude.flipX = true;
+                    if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
+                        this.player.anims.play("run", true);
+                        this.player.flipX = true;
                     }
 
-                    //Si aucune touche fléchée n'est enfoncée dude reste immobile		
-                } else if (this.dude.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
+                    //Si aucune touche fléchée n'est enfoncée player reste immobile		
+                } else if (this.player.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
-                    this.dude.anims.play("idle", true);
+                    this.player.anims.play("idle", true);
                 }
 
                 /*Fix de mouvements aériens*/
                 if (this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
-                    this.dude.setVelocityX(0);
+                    this.player.setVelocityX(0);
 
                 }
 
                 // mouvement du saut
-                if (this.lesfleches.up.isDown && this.dude.body.blocked.down) {
+                if (this.lesfleches.up.isDown && this.player.body.blocked.down) {
 
                 }
             }
