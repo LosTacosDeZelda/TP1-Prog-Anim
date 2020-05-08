@@ -40,8 +40,8 @@ export class level1 extends Phaser.Scene {
     create() {
 
         //Créer les cercles pour le joystick 
-        this.grandCercle = this.add.circle(0, 0, window.innerWidth/8, 0xffffff).setDepth(1);
-        this.petitCercle = this.add.circle(0, 0, window.innerWidth/16, 0xff22dd).setDepth(1);
+        this.grandCercle = this.add.circle(0, 0, window.innerWidth / 8, 0xffffff).setDepth(1);
+        this.petitCercle = this.add.circle(0, 0, window.innerWidth / 16, 0xff22dd).setDepth(1);
 
         //Rajouter un pointer pour la détection d'un 2eme doigt sur mobile
         this.input.addPointer();
@@ -50,8 +50,8 @@ export class level1 extends Phaser.Scene {
 
             //Créer le joystick virtuel
             this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-                x: window.innerWidth/7,
-                y: window.innerHeight/1.35,
+                x: window.innerWidth / 7,
+                y: window.innerHeight / 1.35,
                 radius: 100,
                 base: this.grandCercle,
                 thumb: this.petitCercle,
@@ -62,12 +62,12 @@ export class level1 extends Phaser.Scene {
             });
 
             //Créer le bouton de saut
-            this.jumpButton = this.add.rectangle(window.innerWidth/1.17, window.innerHeight/1.2, window.innerWidth/4, window.innerHeight/4, 0xffffff).setDepth(1);
+            this.jumpButton = this.add.rectangle(window.innerWidth / 1.17, window.innerHeight / 1.2, window.innerWidth / 4, window.innerHeight / 4, 0xffffff).setDepth(1);
 
             this.jumpButton.setInteractive();
 
             this.jumpButton.on("pointerdown", this.jump, this);
-            this.jumpButton.on("pointerup",this.jump,this);
+            this.jumpButton.on("pointerup", this.jump, this);
 
             this.jumpButton.setScrollFactor(0);
 
@@ -231,11 +231,11 @@ export class level1 extends Phaser.Scene {
     }
 
     jump() {
-        
+
         this.clicked = !this.clicked;
 
         console.log(this.clicked);
-       
+
     }
 
     toucheSol() {
@@ -269,57 +269,50 @@ export class level1 extends Phaser.Scene {
 
     update() {
 
-        //console.log(this.layers[0]);
+        this.dude.setOrigin(.5, .5);
 
-        this.player.setOrigin(.5, .5);
-
+        // bouger seulement si il n'est pas mort
         if (game.properties.gameOver == false) {
 
             if (this.surOrdi) {
 
-                //Si aucune touche fléchée n'est enfoncée player reste immobile		
+                // bouger vers la droite
                 if (this.lesfleches.right.isDown) {
 
-                    this.player.setVelocityX(300);
+                    this.dude.setVelocityX(300);
 
-                    if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
-                        this.player.anims.play("run", true);
-                        this.player.flipX = false;
+                    // faire jouer l'animationde cours si le perso touche le sol
+                    if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
+                        this.dude.anims.play("run", true);
+                        this.dude.flipX = false;
                     }
 
-
+                    // bouger vers la gauche 
                 } else if (this.lesfleches.left.isDown) {
 
-                    this.player.setVelocityX(-300);
-
-                    if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
-                        this.player.anims.play("run", true);
-                        this.player.flipX = true;
+                    this.dude.setVelocityX(-300);
+                    // faire jouer l'animationde cours si le perso touche le sol
+                    if (this.lesfleches.up.isUp && this.dude.body.blocked.down) {
+                        this.dude.anims.play("run", true);
+                        this.dude.flipX = true;
                     }
 
+                    //Si aucune touche fléchée n'est enfoncée dude reste immobile		
+                } else if (this.dude.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
 
-                } else if (this.player.body.blocked.down && this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
-
-                    this.player.anims.play("idle", true);
-
-                    this.player.setVelocityX(0);
-
-                }
-                if (this.lesfleches.up.isDown && this.player.body.blocked.down) {
-
-                    this.player.setVelocityY(-400);
-                    this.auSol = false;
+                    this.dude.anims.play("idle", true);
                 }
 
-                if (this.lesfleches.up.isDown) {
+                /*Fix de mouvements aériens*/
+                if (this.lesfleches.left.isUp && this.lesfleches.right.isUp) {
+                    this.dude.setVelocityX(0);
 
-                    this.player.anims.play("jump", true);
-
-                    this.player.anims.getProgress();
                 }
 
+                // mouvement du saut
+                if (this.lesfleches.up.isDown && this.dude.body.blocked.down) {
 
-
+                }
             }
             else {
 
@@ -327,11 +320,7 @@ export class level1 extends Phaser.Scene {
 
                     this.player.setVelocityX(300);
 
-                    // if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
-                    // this.player.anims.play("run", true);
-                    // this.player.flipX = false;
-                    // }
-
+                    // animation du saut
                 } else if (this.joyStick.left) {
 
                     this.player.setVelocityX(-300);
@@ -364,20 +353,7 @@ export class level1 extends Phaser.Scene {
             this.player.setGravityY(1000);
 
         }
-        else {
 
-            //setTimeout(this.loadScene,2000);
-            //Delai avant que le scene reload
-            this.time.addEvent(
-                {
-                    delay: 0,
-                    callback: this.loadScene,
-                    callbackScope: this
-                }
-            );
-
-            this.posX = 0;
-        }
 
 
         //Le mur de lave avance et poursuit le joueur tout au long du niveau
@@ -385,6 +361,20 @@ export class level1 extends Phaser.Scene {
             this.murLaveLayer.setX(this.posX += 1.75);
         }
 
-    }
+    } else {
 
+    //setTimeout(this.loadScene,2000);
+    //Delai avant que le scene reload
+    this.time.addEvent(
+        {
+            delay: 0,
+            callback: this.loadScene,
+            callbackScope: this
+        }
+    );
+
+    this.posX = 0;
+}
+
+    }
 }
