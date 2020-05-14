@@ -23,7 +23,15 @@ export class sceneChargement extends Phaser.Scene {
 
 		//L'image des blocs
         this.load.image("bloc","tilesets/bloc.png");
-        this.load.image("lava","tilesets/lava.png");
+		this.load.image("lava","tilesets/lava.png");
+		
+		//UI
+		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
+		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");
+
+		//Effets sonores
+		this.load.audio("sonSaut","sons/jump.wav");
+		
         
         this.load.setPath("medias/spritesheet");
 
@@ -46,9 +54,14 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.spritesheet("travelerLand","travelerLand.png",{
 			frameWidth:64,
 			frameHeight:64
-		})
+		});
 
-		//this.load.image("travelerRun","spr_m_traveler_run_anim.gif")
+		this.load.spritesheet("jumpButton","greenButtonsheet.png",{
+			frameWidth: 60,
+			frameHeight: 40
+		});
+
+		
 
 		//Fichier JSON du tilemap
 		this.load.tilemapTiledJSON("lvl1","../maps/TP1_tilemap3.json");

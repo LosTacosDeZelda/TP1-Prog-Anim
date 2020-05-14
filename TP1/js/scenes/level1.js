@@ -35,17 +35,24 @@ export class level1 extends Phaser.Scene {
         this.surOrdi;
 
         this.clicked = false;
+
+        this.jumpButton;
     }
 
     create() {
 
         //Créer les cercles pour le joystick 
-        this.grandCercle = this.add.circle(0, 0, window.innerWidth / 8, 0xffffff).setDepth(1);
-        this.petitCercle = this.add.circle(0, 0, window.innerWidth / 16, 0xff22dd).setDepth(1);
+        this.grandCercle = this.add.image(0, 0, "joystickExt").setDepth(1);
+        this.grandCercle.setDisplaySize(window.innerWidth / 3, window.innerWidth / 3);
 
-        //Rajouter un pointer pour la détection d'un 2eme doigt sur mobile
+
+        this.petitCercle = this.add.image(0, 0, "joystickInt").setDepth(1);
+        this.petitCercle.setScale(window.innerWidth / 650, window.innerWidth / 650);
+
+        //Rajouter un pointer pour la détection d'un 2ème doigt sur mobile
         this.input.addPointer();
 
+        //On gère différamment les inputs de l'utilisateur selon l'appareil
         if (navigator.userAgent.includes("Mobile") || navigator.userAgent.includes("Tablet")) {
 
             //Créer le joystick virtuel
@@ -62,8 +69,8 @@ export class level1 extends Phaser.Scene {
             });
 
             //Créer le bouton de saut
-            this.jumpButton = this.add.rectangle(window.innerWidth / 1.17, window.innerHeight / 1.2, window.innerWidth / 4, window.innerHeight / 4, 0xffffff).setDepth(1);
-
+            this.jumpButton = this.add.sprite(window.innerWidth / 1.2, window.innerHeight / 1.2, "jumpButton", 0).setDepth(1);  //this.add.rectangle(window.innerWidth / 1.17, window.innerHeight / 1.2, window.innerWidth / 4, window.innerHeight / 4, 0xffffff).setDepth(1);
+            this.jumpButton.setDisplaySize(window.innerWidth / 4, window.innerHeight / 4);
             this.jumpButton.setInteractive();
 
             this.jumpButton.on("pointerdown", this.jump, this);
@@ -76,8 +83,6 @@ export class level1 extends Phaser.Scene {
 
         }
         else {
-
-
 
             //Instancier un objet pour détecter les touches FLÉCHÉES du clavier
             this.lesfleches = this.input.keyboard.createCursorKeys();
@@ -132,7 +137,17 @@ export class level1 extends Phaser.Scene {
             frameRate: 10,
             repeat: 1
 
-        })
+        });
+
+        //Animation du bouton sauter
+        this.anims.create({
+            key: "clickButton",
+            frames: this.anims.generateFrameNumbers("jumpButton", {
+                start: 0,
+                end: 3
+            }),
+            frameRate: 10
+        });
 
 
         //Instancier l'aventurier comme entité physique au debut du niveau
@@ -233,6 +248,14 @@ export class level1 extends Phaser.Scene {
     jump() {
 
         this.clicked = !this.clicked;
+        if (this.clicked) {
+            this.jumpButton.anims.play("clickButton",true);
+        }
+        else {
+            this.jumpButton.anims.playReverse("clickButton",true)
+        }
+
+        
 
         console.log(this.clicked);
 
@@ -281,7 +304,7 @@ export class level1 extends Phaser.Scene {
 
                     this.player.setVelocityX(300);
 
-                    // faire jouer l'animationde cours si le perso touche le sol
+                    // faire jouer l'animation de course si le perso touche le sol
                     if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
                         this.player.anims.play("run", true);
                         this.player.flipX = false;
@@ -311,7 +334,12 @@ export class level1 extends Phaser.Scene {
 
                 // mouvement du saut
                 if (this.lesfleches.up.isDown && this.player.body.blocked.down) {
+                    this.player.setVelocityY(-420);
+                    this.auSol = false;
 
+                    this.player.anims.play("jump", true);
+                    this.sound.play("sonSaut",{volume: 0.2});
+                    
                 }
             }
             else {
