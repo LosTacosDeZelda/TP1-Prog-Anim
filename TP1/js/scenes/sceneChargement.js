@@ -20,9 +20,6 @@ export class sceneChargement extends Phaser.Scene {
 
         
         this.load.setPath("medias/");
-
-		//Lave
-		this.load.image("lava","img/tilesets/lava.png");
 		
 		//UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
@@ -30,6 +27,9 @@ export class sceneChargement extends Phaser.Scene {
 
 		//Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
 		this.load.audio("sonSaut","sons/jump.wav");
+
+		//Theme Chiptune
+		this.load.audio("themePrincipal","sons/TribalTemple.wav");
 	
         this.load.setPath("medias/img/spritesheet");
 
@@ -68,14 +68,16 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.image("templeSet","img/tilesets/tile_temple.png");
 		this.load.image("customSet","img/tilesets/customAssets.png");
 
-		this.load.on("progress",this.progresChargement,this);
-
+		
 		//Charger la police bitmap
 		this.load.bitmapFont("SF-Fedora","fonte/sf_fedora/bitmapFedora/font.png","fonte/sf_fedora/bitmapFedora/font.fnt");
+
+		this.load.on("progress",this.progresChargement,this);
+
 	}
 
 	progresChargement(pourcentage){
-
+		console.log(pourcentage);
 	}
 
 	create() {
