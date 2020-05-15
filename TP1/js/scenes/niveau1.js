@@ -2,7 +2,7 @@
 
 
 /**
- * Class representant la scène du jeu comme tel
+ * Classe representant la scène du jeu comme tel
  */
 
 export class niveau1 extends Phaser.Scene {
