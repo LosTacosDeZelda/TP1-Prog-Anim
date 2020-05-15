@@ -5,11 +5,11 @@
  * Class representant la scène du jeu comme tel
  */
 
-export class level1 extends Phaser.Scene {
+export class niveau1 extends Phaser.Scene {
 
 
     constructor() {
-        super("level1");
+        super("niveau1");
 
         //Arrays
         this.layers = [];
@@ -45,9 +45,11 @@ export class level1 extends Phaser.Scene {
         this.grandCercle = this.add.image(0, 0, "joystickExt").setDepth(1);
         this.grandCercle.setDisplaySize(window.innerWidth / 3, window.innerWidth / 3);
 
-
         this.petitCercle = this.add.image(0, 0, "joystickInt").setDepth(1);
         this.petitCercle.setScale(window.innerWidth / 650, window.innerWidth / 650);
+
+        // Créer le texte pour le pointage
+        this.add.text(window.innerWidth,0,"0",{fontFamily: 'SF-Fedora', fontSize: 30, color: 0xffffff})
 
         //Rajouter un pointer pour la détection d'un 2ème doigt sur mobile
         this.input.addPointer();
@@ -90,9 +92,6 @@ export class level1 extends Phaser.Scene {
             this.surOrdi = true;
 
         }
-
-
-        let solPhysics = this.physics.add.group();
 
         //Créer les animations du traveler
         this.anims.create({
@@ -138,6 +137,7 @@ export class level1 extends Phaser.Scene {
             repeat: 1
 
         });
+        //Fin animations traveler
 
         //Animation du bouton sauter
         this.anims.create({
@@ -154,33 +154,33 @@ export class level1 extends Phaser.Scene {
         //On affiche l'image au repos de celui-ci
         this.player = this.physics.add.sprite(800, 680, "travelerIdle", 0);
 
-
+        // Ajuster les propriétés physiques du joueur
         this.player.body.setSize(40, 55);
         this.player.scaleX = 0.75;
         this.player.scaleY = 0.75;
 
 
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
-        let level1TileMap = this.add.tilemap("lvl1");
+        let niveau1TileMap = this.add.tilemap("lvl1");
 
-        let templeSet = level1TileMap.addTilesetImage("Jungle", "templeSet");
-        let customSet = level1TileMap.addTilesetImage("customs", "customSet");
+        let templeSet = niveau1TileMap.addTilesetImage("Jungle", "templeSet");
+        let customSet = niveau1TileMap.addTilesetImage("customs", "customSet");
 
 
 
         //affichage des Layers
-        this.goalLayer = level1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
-        this.bg_gateLayer = level1TileMap.createStaticLayer("bg_gate", [templeSet], 0, 255).setDepth(-2);
-        this.gate_backLayer = level1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255).setDepth(-1);
-        this.bgLayer = level1TileMap.createStaticLayer("bg", [templeSet], 0, 255).setDepth(-1);
-        this.solLayer = level1TileMap.createStaticLayer("sol", [templeSet], 0, 255);
-        this.gazonLayer = level1TileMap.createStaticLayer("gazon", [templeSet], 0, 255).setDepth(-1);
-        this.gate_frontLayer = level1TileMap.createStaticLayer("gate_front", [templeSet], 0, 255);
-        this.fixesLayer = level1TileMap.createStaticLayer("fixes_bg", [templeSet], 0, 255).setDepth(-1);
-        this.obstaclesLayer = level1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
-        this.laveLayer = level1TileMap.createStaticLayer("lave", [customSet], 0, 255);
-        this.etoilesLayer = level1TileMap.createStaticLayer("etoiles", [customSet], 0, 255);
-        this.murLaveLayer = level1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+        this.goalLayer = niveau1TileMap.createStaticLayer("goal", [templeSet], 0, 255).setDepth(-3);
+        this.bg_gateLayer = niveau1TileMap.createStaticLayer("bg_gate", [templeSet], 0, 255).setDepth(-2);
+        this.gate_backLayer = niveau1TileMap.createStaticLayer("gate_back", [templeSet], 0, 255).setDepth(-1);
+        this.bgLayer = niveau1TileMap.createStaticLayer("bg", [templeSet], 0, 255).setDepth(-1);
+        this.solLayer = niveau1TileMap.createStaticLayer("sol", [templeSet], 0, 255);
+        this.gazonLayer = niveau1TileMap.createStaticLayer("gazon", [templeSet], 0, 255).setDepth(-1);
+        this.gate_frontLayer = niveau1TileMap.createStaticLayer("gate_front", [templeSet], 0, 255);
+        this.fixesLayer = niveau1TileMap.createStaticLayer("fixes_bg", [templeSet], 0, 255).setDepth(-1);
+        this.obstaclesLayer = niveau1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
+        this.laveLayer = niveau1TileMap.createStaticLayer("lave", [customSet], 0, 255);
+        this.etoilesLayer = niveau1TileMap.createDynamicLayer("etoiles", [customSet], 0, 255);
+        this.murLaveLayer = niveau1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
 
         this.layers.push(this.goalLayer, this.bg_gateLayer, this.gate_backLayer, this.gate_frontLayer, this.bgLayer, this.solLayer, this.gazonLayer, this.fixesLayer, this.obstaclesLayer, this.laveLayer, this.etoilesLayer, this.murLaveLayer);
 
@@ -208,6 +208,7 @@ export class level1 extends Phaser.Scene {
         //Cette methode permet dappeler une fonction quand quelque chose collide avec la layer 
         //Il faut donner les index des tiles que tu veux verifier
         this.murLaveLayer.setTileIndexCallback([139, 2684354698], this.collisionLave, this);
+        this.etoilesLayer.setTileIndexCallback([137], this.ramasseEtoile,this);
 
         // resize tiles *********************==a optimiser==********************
 
@@ -240,23 +241,23 @@ export class level1 extends Phaser.Scene {
     }
 
     /*******************************== a ameliorer==****************************************/
-    ramasseEtoile() {
+    ramasseEtoile(player,etoile) {
         this.score += 1;
-        // this.etoilesLayer.destroy();
+        this.etoilesLayer.removeTileAtWorldXY(etoile.getBounds().x,etoile.getBounds().y);
     }
 
     jump() {
 
         this.clicked = !this.clicked;
+
         if (this.clicked) {
             this.jumpButton.anims.play("clickButton",true);
         }
         else {
-            this.jumpButton.anims.playReverse("clickButton",true)
+            this.jumpButton.anims.playReverse("clickButton")
         }
 
         
-
         console.log(this.clicked);
 
     }
@@ -274,7 +275,7 @@ export class level1 extends Phaser.Scene {
 
     loadScene() {
 
-        this.scene.start("level1");
+        this.scene.start("niveau1");
         this.startWall = false;
 
         //Petit probleme avec le reload, pour etre sur qu'il se fasse après, je l'ai fait ici
@@ -284,7 +285,9 @@ export class level1 extends Phaser.Scene {
         }, 1);
 
     }
-
+    /**
+     * Permet de declencher le mur de lave
+     */
     startLavaWall() {
         this.startWall = true;
     }
@@ -339,6 +342,8 @@ export class level1 extends Phaser.Scene {
 
                     this.player.anims.play("jump", true);
                     this.sound.play("sonSaut",{volume: 0.2});
+
+                    //this.sound.play("fsdgs",{loop: true});
                     
                 }
             }

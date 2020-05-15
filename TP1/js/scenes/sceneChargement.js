@@ -8,32 +8,30 @@ export class sceneChargement extends Phaser.Scene {
 	constructor() {
 		super("sceneChargement");
 	}
-
+	
 	preload() {
 
 		//Charger le plugin pour le joystic virtuel
 		let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
 		this.load.plugin('rexvirtualjoystickplugin', url, true);
 
-		//this.load.plugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',true);
+		
 		this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 
-        //Charger l'image du jeu
+        
         this.load.setPath("medias/");
 
-		//L'image des blocs
-        this.load.image("bloc","tilesets/bloc.png");
-		this.load.image("lava","tilesets/lava.png");
+		//Lave
+		this.load.image("lava","img/tilesets/lava.png");
 		
 		//UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
 		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");
 
-		//Effets sonores
+		//Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
 		this.load.audio("sonSaut","sons/jump.wav");
-		
-        
-        this.load.setPath("medias/spritesheet");
+	
+        this.load.setPath("medias/img/spritesheet");
 
 		//Les feuilles de sprites du traveler
 		this.load.spritesheet("travelerRun", "travelerRun.png", {
@@ -61,17 +59,26 @@ export class sceneChargement extends Phaser.Scene {
 			frameHeight: 40
 		});
 
-		
+		this.load.setPath("medias/");
 
 		//Fichier JSON du tilemap
-		this.load.tilemapTiledJSON("lvl1","../maps/TP1_tilemap3.json");
+		this.load.tilemapTiledJSON("lvl1","maps/TP1_tilemap3.json");
 
 		//Tilesets
-		this.load.image("templeSet","../tilesets/tile_temple.png");
-		this.load.image("customSet","../tilesets/customAssets.png");
+		this.load.image("templeSet","img/tilesets/tile_temple.png");
+		this.load.image("customSet","img/tilesets/customAssets.png");
+
+		this.load.on("progress",this.progresChargement,this);
+
+		//Charger la police bitmap
+		this.load.bitmapFont("SF-Fedora","fonte/sf_fedora/bitmapFedora/font.png","fonte/sf_fedora/bitmapFedora/font.fnt");
+	}
+
+	progresChargement(pourcentage){
+
 	}
 
 	create() {
-		this.scene.start("level1");
+		this.scene.start("Menu");
 	}
 }

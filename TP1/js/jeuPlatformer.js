@@ -3,9 +3,13 @@ import {
 	sceneChargement
 } from './scenes/sceneChargement.js';
 
+import{
+	Menu
+} from "./scenes/menu.js";
+
 import {
-	level1
-} from './scenes/level1.js';
+	niveau1
+} from './scenes/niveau1.js';
 
 window.addEventListener("load", function(){
     let largeur = 1024,
@@ -17,6 +21,10 @@ window.addEventListener("load", function(){
 		//8console.log("Le jeu est lu sur un mobile... on change les dimensions...");
 		largeur = Math.max(window.innerWidth, window.innerHeight);
 		hauteur = Math.min(window.innerWidth, window.innerHeight);
+		
+		//ScreenOrientation.lock("landscape");
+		//window.screen.lockOrientation("landscape");
+		
 	}
 
     let config = {
@@ -28,7 +36,7 @@ window.addEventListener("load", function(){
             height:hauteur
         },
 
-        scene: [sceneChargement, level1],
+        scene: [sceneChargement,Menu,niveau1],
 		physics: {
 			default: 'arcade',
 			arcade: {
