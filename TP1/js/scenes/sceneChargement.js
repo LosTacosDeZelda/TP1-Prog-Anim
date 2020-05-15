@@ -19,13 +19,20 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 
         
-        this.load.setPath("medias/");
+		this.load.setPath("medias/");
 		
-		//UI
+		// Menu
+		this.load.image("menuBG", "img/menus/menu_jeuBG.jpg");
+		this.load.image("menuPerso", "img/menus/menu_jeuPerso");
+
+		// Lave
+		this.load.image("lava","img/tilesets/lava.png");
+		
+		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
 		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");
 
-		//Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
+		// Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
 		this.load.audio("sonSaut","sons/jump.wav");
 
 		//Theme Chiptune
@@ -33,7 +40,7 @@ export class sceneChargement extends Phaser.Scene {
 	
         this.load.setPath("medias/img/spritesheet");
 
-		//Les feuilles de sprites du traveler
+		// Les feuilles de sprites du voyageur
 		this.load.spritesheet("travelerRun", "travelerRun.png", {
 			frameWidth: 64,
 			frameHeight: 64
@@ -61,15 +68,16 @@ export class sceneChargement extends Phaser.Scene {
 
 		this.load.setPath("medias/");
 
-		//Fichier JSON du tilemap
+		// Fichier JSON du tilemap
 		this.load.tilemapTiledJSON("lvl1","maps/TP1_tilemap3.json");
 
-		//Tilesets
+		// Tilesets
 		this.load.image("templeSet","img/tilesets/tile_temple.png");
 		this.load.image("customSet","img/tilesets/customAssets.png");
 
-		
-		//Charger la police bitmap
+		this.load.on("progress",this.progresChargement,this);
+
+		// Charger la police bitmap
 		this.load.bitmapFont("SF-Fedora","fonte/sf_fedora/bitmapFedora/font.png","fonte/sf_fedora/bitmapFedora/font.fnt");
 
 		this.load.on("progress",this.progresChargement,this);

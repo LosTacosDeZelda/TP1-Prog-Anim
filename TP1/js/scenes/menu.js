@@ -1,5 +1,7 @@
 
-
+/**
+ * Classe représentant le menu principal du jeu
+ */
 
 export class Menu extends Phaser.Scene{
 
