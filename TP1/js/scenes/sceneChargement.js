@@ -23,7 +23,7 @@ export class sceneChargement extends Phaser.Scene {
 		
 		// Menu
 		this.load.image("menuBG", "img/menus/menu_jeuBG.jpg");
-		this.load.image("menuPerso", "img/menus/menu_jeuPerso");
+		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");
 
 		// Lave
 		this.load.image("lava","img/tilesets/lava.png");
