@@ -34,6 +34,9 @@ export class sceneChargement extends Phaser.Scene {
 
 		// Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
 		this.load.audio("sonSaut","sons/jump.wav");
+
+		//Theme Chiptune
+		this.load.audio("themePrincipal","sons/TribalTemple.wav");
 	
         this.load.setPath("medias/img/spritesheet");
 
@@ -76,10 +79,13 @@ export class sceneChargement extends Phaser.Scene {
 
 		// Charger la police bitmap
 		this.load.bitmapFont("SF-Fedora","fonte/sf_fedora/bitmapFedora/font.png","fonte/sf_fedora/bitmapFedora/font.fnt");
+
+		this.load.on("progress",this.progresChargement,this);
+
 	}
 
 	progresChargement(pourcentage){
-
+		console.log(pourcentage);
 	}
 
 	create() {

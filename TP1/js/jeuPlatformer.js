@@ -50,8 +50,10 @@ window.addEventListener("load", function(){
 	
 	window.game.properties = {
 
-		gameOver: false
 		//Ici, tu peux mettre les proprietes globales du jeu
+		score: 0,
+		gameOver: false
+		
 	}
 	
 }, false)

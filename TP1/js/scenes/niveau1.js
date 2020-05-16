@@ -27,12 +27,13 @@ export class niveau1 extends Phaser.Scene {
 
         this.startWall = false;
 
-        //score
-        this.score = 0;
+        this.scoreText = null;
 
         this.posX = 0;
 
         this.surOrdi;
+
+        this.themePrincipal;
 
         this.clicked = false;
 
@@ -49,7 +50,9 @@ export class niveau1 extends Phaser.Scene {
         this.petitCercle.setScale(window.innerWidth / 650, window.innerWidth / 650);
 
         // Créer le texte pour le pointage
-        this.add.text(window.innerWidth,0,"0",{fontFamily: 'SF-Fedora', fontSize: 30, color: 0xffffff})
+        this.scoreText = this.add.bitmapText(800,25,"SF-Fedora","Pointage : "+game.properties.score,30).setDepth(1);
+
+        this.scoreText.setScrollFactor(0);
 
         //Rajouter un pointer pour la détection d'un 2ème doigt sur mobile
         this.input.addPointer();
@@ -231,19 +234,34 @@ export class niveau1 extends Phaser.Scene {
             }
         )
 
+        //Partir le theme principal
+        if (this.themePrincipal == null || this.themePrincipal.isPlaying == false) {
+
+            this.themePrincipal = this.sound.play("themePrincipal",{loop:true});
+        }
+        
+        
+        
     }
 
     collisionLave() {
         console.log("player touched lava wall");
+
         game.properties.gameOver = true;
         this.player.destroy();
+        game.properties.score = 0;
 
     }
 
     /*******************************== a ameliorer==****************************************/
     ramasseEtoile(player,etoile) {
-        this.score += 1;
+
         this.etoilesLayer.removeTileAtWorldXY(etoile.getBounds().x,etoile.getBounds().y);
+
+        game.properties.score++;
+        this.scoreText.setText("Pointage : " + game.properties.score);
+    
+        console.log(game.properties.score);
     }
 
     jump() {
