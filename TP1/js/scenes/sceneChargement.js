@@ -23,10 +23,10 @@ export class sceneChargement extends Phaser.Scene {
 		
 		// Menu
 		this.load.image("menuBG", "img/menus/menu_jeuBG.jpg");
-		this.load.image("menuPerso", "img/menus/menu_jeuPerso");
+		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");
 
-		// Lave
-		this.load.image("lava","img/tilesets/lava.png");
+		// Lave                                                                                      
+		this.load.image("lava","img/tilesets/lava.png");                                                                                                                                                                 
 		
 		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
@@ -36,7 +36,7 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.audio("sonSaut","sons/jump.wav");
 
 		//Theme Chiptune
-		this.load.audio("themePrincipal","sons/TribalTemple.wav");
+		this.load.audio("themePrincipal","sons/TribalTheme.wav");
 	
         this.load.setPath("medias/img/spritesheet");
 
