@@ -2,3 +2,17 @@
     font-family: "SF-Fedora";
     src: url("../medias/fonte/sf_fedora/SFFedora.ttf");
 }
+
+div{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30pt;
+    background-color: rgb(182, 132, 40);
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    z-index: 10;
+}
+
+.invisible{
+    display: none;
+}
