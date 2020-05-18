@@ -1,4 +1,5 @@
 /**
+ * @author 
  * Classe qui charge les médias
  * @extends Phaser.Scene
  */
@@ -61,9 +62,26 @@ export class sceneChargement extends Phaser.Scene {
 			frameHeight:64
 		});
 
+		this.load.spritesheet("mortOuEnVie","sheetDeadAlive.png",{
+			frameWidth: 340,
+			frameHeight: 360
+		})
+
+		//Spritesheet du UI
+
 		this.load.spritesheet("jumpButton","greenButtonsheet.png",{
-			frameWidth: 60,
-			frameHeight: 40
+			frameWidth: 240,
+			frameHeight: 160
+		});
+
+		this.load.spritesheet("menuButton","blueButtonSheet.png",{
+			frameWidth: 248,
+			frameHeight: 256
+		});
+
+		this.load.spritesheet("boutonReessayer","redButtonSheet.png",{
+			frameWidth:256,
+			frameHeight:256
 		});
 
 		this.load.setPath("medias/");
@@ -75,16 +93,16 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.image("templeSet","img/tilesets/tile_temple.png");
 		this.load.image("customSet","img/tilesets/customAssets.png");
 
-		this.load.on("progress",this.progresChargement,this);
 
-		// Charger la police bitmap
+		// Charger les polices bitmap
 		this.load.bitmapFont("SF-Fedora","fonte/sf_fedora/bitmapFedora/font.png","fonte/sf_fedora/bitmapFedora/font.fnt");
+		this.load.bitmapFont("VCR","fonte/vcr_osd/font.png","fonte/vcr_osd/font.fnt");
 
-		this.load.on("progress",this.progresChargement,this);
+		this.load.on("progress",this.progressionChargement,this);
 
 	}
 
-	progresChargement(pourcentage){
+	progressionChargement(pourcentage){
 		console.log(pourcentage);
 	}
 

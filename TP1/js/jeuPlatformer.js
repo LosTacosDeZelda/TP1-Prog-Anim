@@ -3,7 +3,7 @@ import {
 	sceneChargement
 } from './scenes/sceneChargement.js';
 
-import{
+import {
 	Menu
 } from "./scenes/menu.js";
 
@@ -11,8 +11,12 @@ import {
 	niveau1
 } from './scenes/niveau1.js';
 
-window.addEventListener("load", function(){
-    let largeur = 1024,
+import { gameOver } from './scenes/gameOver.js';
+import { Instructions } from './scenes/instructions.js';
+
+window.addEventListener("load", function () {
+	
+	let largeur = 1024,
 		hauteur = 576;
 
 	//On fait 2 vérifications la première pour "Mobile" et la seconde pour "Tablet"
@@ -21,39 +25,40 @@ window.addEventListener("load", function(){
 		//8console.log("Le jeu est lu sur un mobile... on change les dimensions...");
 		largeur = Math.max(window.innerWidth, window.innerHeight);
 		hauteur = Math.min(window.innerWidth, window.innerHeight);
-		
+
 		//ScreenOrientation.lock("landscape");
 		//window.screen.lockOrientation("landscape");
-		
+
 	}
 
-    let config = {
-		backgroundColor: 0x000000,
-        scale:{
-            mode: Phaser.Scale.FIT,
+	let config = {
+		backgroundColor: 0x666666,
+		scale: {
+			mode: Phaser.Scale.FIT,
 			autoCenter: Phaser.Scale.CENTER_BOTH,
-            width:largeur,
-            height:hauteur
-        },
+			width: largeur,
+			height: hauteur
+		},
 
-        scene: [sceneChargement,Menu,niveau1],
+		scene: [sceneChargement, Menu, Instructions, niveau1, gameOver],
 		physics: {
 			default: 'arcade',
 			arcade: {
 				//debug: true,
 			}
 		}
-		
-    }
+
+	}
 
 	window.game = new Phaser.Game(config);
-	
+
 	window.game.properties = {
 
 		//Ici, tu peux mettre les proprietes globales du jeu
 		score: 0,
-		gameOver: false
-		
+		mort: false,
+		partieGagnee: false
+
 	}
-	
+
 }, false)
