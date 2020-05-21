@@ -27,8 +27,6 @@ export class niveau1 extends Phaser.Scene {
 
         this.scoreText = null;
 
-        this.posX = 0;
-
         this.surOrdi;
 
         this.themePrincipal;
@@ -36,12 +34,16 @@ export class niveau1 extends Phaser.Scene {
         this.clicked = false;
 
         this.jumpButton;
+
+        this.joystickKeys;
     }
 
     /**
      * 
      */
     create() {
+
+        this.posX = 0;
 
         //Créer les cercles pour le joystick 
         this.grandCercle = this.add.image(0, 0, "joystickExt").setDepth(1);
@@ -51,7 +53,7 @@ export class niveau1 extends Phaser.Scene {
         this.petitCercle.setScale(window.innerWidth / 650, window.innerWidth / 650);
 
         // Créer le texte pour le pointage
-        this.scoreText = this.add.bitmapText(800,25,"SF-Fedora","Pointage : "+game.properties.score,30).setDepth(1);
+        this.scoreText = this.add.bitmapText(screen.width/1.9, (screen.height - screen.height) + 30, "SF-Fedora", "Pointage : " + game.properties.score, 30).setDepth(1);
 
         this.scoreText.setScrollFactor(0);
 
@@ -74,14 +76,20 @@ export class niveau1 extends Phaser.Scene {
                 enable: true
             });
 
+          this.joystickKeys = this.joyStick.createCursorKeys();
+
             //Créer le bouton de saut
             this.jumpButton = this.add.sprite(window.innerWidth / 1.2, window.innerHeight / 1.2, "jumpButton", 0).setDepth(1);  //this.add.rectangle(window.innerWidth / 1.17, window.innerHeight / 1.2, window.innerWidth / 4, window.innerHeight / 4, 0xffffff).setDepth(1);
             this.jumpButton.setDisplaySize(window.innerWidth / 4, window.innerHeight / 4);
             this.jumpButton.setInteractive();
 
-            this.jumpButton.on("pointerdown", this.jump, this);
-            this.jumpButton.on("pointerup", this.jump, this);
+            //Permet de gérer l'animation du bouton
+            this.jumpButton.on("pointerdown", this.animBouton, this);
+            this.jumpButton.on("pointerup", this.animBouton, this);
 
+            this.jumpButton.on("pointerdown",this.saut,this);
+
+            //Permet de gérer le bouton de saut en tant que UI
             this.jumpButton.setScrollFactor(0);
 
             //Variable qui change les inputs selon lappareil sur lequel on est
@@ -132,6 +140,7 @@ export class niveau1 extends Phaser.Scene {
         });
 
         this.anims.create({
+
             key: "land",
             frames: this.anims.generateFrameNumbers("travelerLand", {
                 start: 0,
@@ -156,7 +165,7 @@ export class niveau1 extends Phaser.Scene {
 
         //Instancier l'aventurier comme entité physique au debut du niveau
         //On affiche l'image au repos de celui-ci
-        this.player = this.physics.add.sprite(800, 680, "travelerIdle", 0);
+        this.player = this.physics.add.sprite(1200, 680, "travelerIdle", 0);
 
         // Ajuster les propriétés physiques du joueur
         this.player.body.setSize(40, 55);
@@ -165,7 +174,9 @@ export class niveau1 extends Phaser.Scene {
 
 
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
-        let niveau1TileMap = this.add.tilemap("lvl1");
+        let niveau1TileMap = this.make.tilemap({key:"lvl1"});
+
+       
 
         //Ajouter les tileset utilisés
         let templeSet = niveau1TileMap.addTilesetImage("Jungle", "templeSet");
@@ -212,19 +223,20 @@ export class niveau1 extends Phaser.Scene {
         //Cette méthode permet d'appeler une fonction quand quelque chose collide avec la layer 
         //Il faut donner les index des tiles que tu veux vérifier
         this.murLaveLayer.setTileIndexCallback([139, 2684354698], this.collisionLave, this);
-        this.etoilesLayer.setTileIndexCallback([137], this.ramasseEtoile,this);
+        this.etoilesLayer.setTileIndexCallback([137], this.ramasseEtoile, this);
 
         //Ajustement de la taille des layers du tilemap
         this.layers.forEach(layer => {
-            layer.setDisplaySize(5000, 833);
+            layer.setDisplaySize(5000, 833); //833
         });
 
 
         //Caméra suivant le joueur (avec contraintes)
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(500, 255, 4075, 1500);
+        this.cameras.main.setBounds(500, 255, 4500, 1500);
 
-        this.cameras.main.setScene(this);
+        this.cameras.main.roundPixels = true
+        //this.cameras.main.setScene(this);
 
         //Minuterie avant que le mur de lave ne commence à bouger
         this.time.addEvent(
@@ -238,19 +250,20 @@ export class niveau1 extends Phaser.Scene {
         //Partir le theme principal du jeu
         if (this.themePrincipal == null || this.themePrincipal.isPlaying == false) {
 
-            this.themePrincipal = this.sound.play("themePrincipal",{loop:true});
+            this.themePrincipal = this.sound.play("themePrincipal", { loop: true });
         }
-        
-        
-        
+
+
+
     }
 
     /**
      * 
      */
     collisionLave() {
-        console.log("player touched lava wall");
 
+        this.sound.play("sonMort");
+        
         game.properties.mort = true;
         this.player.destroy();
         game.properties.score = 0;
@@ -263,33 +276,38 @@ export class niveau1 extends Phaser.Scene {
      * @param {*} joueur Ce qui rencontre la tuile, dans ce cas-ci, c'est le joueur
      * @param {*} etoile La tuile rencontrée
      */
-    ramasseEtoile(joueur,etoile) {
+    ramasseEtoile(joueur, etoile) {
+        
+        this.etoilesLayer.removeTileAtWorldXY(etoile.getBounds().x, etoile.getBounds().y);
 
-        this.etoilesLayer.removeTileAtWorldXY(etoile.getBounds().x,etoile.getBounds().y);
-
+        this.sound.play("sonEtoile");
         game.properties.score++;
         this.scoreText.setText("Pointage : " + game.properties.score);
-    
-        console.log(game.properties.score);
+
     }
 
     /**
      * 
      */
-    jump() {
+    animBouton() {
 
         this.clicked = !this.clicked;
 
         if (this.clicked) {
-            this.jumpButton.anims.play("clickButton",true);
+            this.jumpButton.anims.play("clickButton", true);
         }
         else {
             this.jumpButton.anims.playReverse("clickButton")
         }
 
-        
+
         console.log(this.clicked);
 
+    }
+
+    
+    saut(){
+        this.activerSaut = true;
     }
 
     /**
@@ -298,6 +316,7 @@ export class niveau1 extends Phaser.Scene {
     toucheSol() {
 
         this.auSol = true;
+        //this.activerSaut = false;
 
     }
 
@@ -305,8 +324,9 @@ export class niveau1 extends Phaser.Scene {
      * 
      */
     finNiveau() {
-        
+
         game.properties.partieGagnee = true;
+        this.startWall = false;
         this.scene.start("gameOver");
     }
 
@@ -332,10 +352,10 @@ export class niveau1 extends Phaser.Scene {
         this.startWall = true;
     }
 
-     /**
-      * Update permet de faire bouger le joueur dans la scene
-      * 
-      */
+    /**
+     * Update permet de faire bouger le joueur dans la scene
+     * 
+     */
     update() {
 
         this.player.setOrigin(.5, .5);
@@ -380,57 +400,68 @@ export class niveau1 extends Phaser.Scene {
 
                 // mouvement du saut
                 if (this.lesfleches.up.isDown && this.player.body.blocked.down) {
-                    this.player.setVelocityY(-420);
+
+                    this.player.setVelocityY(-430);
                     this.auSol = false;
 
                     this.player.anims.play("jump", true);
-                    this.sound.play("sonSaut",{volume: 0.2});
+                    this.sound.play("sonSaut", { volume: 0.2 });
 
-                    //this.sound.play("fsdgs",{loop: true});
-                    
                 }
             }
             else {
 
-                if (this.joyStick.right) {
+                if (this.joystickKeys.right.isDown) {
 
                     this.player.setVelocityX(300);
 
-                    // animation du saut
-                } else if (this.joyStick.left) {
+                    // faire jouer l'animation de course si le perso touche le sol
+                    if (this.joyStick.right && this.player.body.blocked.down) {
+                        this.player.anims.play("run", true);
+                        this.player.flipX = false;
+                    }
+
+
+                } else if (this.joystickKeys.left.isDown) {
 
                     this.player.setVelocityX(-300);
 
-                    //if (this.lesfleches.up.isUp && this.player.body.blocked.down) {
-                    //  this.player.anims.play("run", true);
-                    // this.player.flipX = true;
-                    // }
-                } else {
+                    if (this.joyStick.left && this.player.body.blocked.down) {
+                        this.player.anims.play("run", true);
+                        this.player.flipX = true;
+                    }
+
+                } else if(this.joyStick.noKey && this.player.body.blocked.down) {
 
                     this.player.anims.play("idle", true);
 
                     this.player.setVelocityX(0);
                 }
 
-                if (this.clicked == true && this.player.body.blocked.down) {
+                 /*Fix des mouvements aériens*/
+                 if (this.joystickKeys.left.isUp && this.joystickKeys.right.isUp) {
+                    this.player.setVelocityX(0);
 
-                    this.player.setVelocityY(-400);
-                    this.auSol = false;
                 }
 
-                // if (this.lesfleches.up.isDown) {
+                if (this.clicked && this.player.body.blocked.down) {
 
-                //     this.player.anims.play("jump", true);
+                    this.player.setVelocityY(-430);
+                    this.auSol = false;
 
-                //     this.player.anims.getProgress();
-                // }
+                    this.player.anims.play("jump", true);
+                    this.sound.play("sonSaut", { volume: 0.2 });
+                }
+
+               
             }
 
             this.player.setGravityY(1000);
 
             //Le mur de lave avance et poursuit le joueur tout au long du niveau
             if (this.startWall == true) {
-                this.murLaveLayer.setX(this.posX += 1.6);
+
+                this.murLaveLayer.setX(this.posX += 1.4);
 
             }
 
@@ -438,8 +469,11 @@ export class niveau1 extends Phaser.Scene {
 
             this.scene.start("gameOver");
 
+            this.startWall = false;
             this.posX = 0;
         }
+
+        console.log("Start lava wall" + this.startWall);
 
     }
 }

@@ -8,9 +8,18 @@ export class sceneChargement extends Phaser.Scene {
 
 	constructor() {
 		super("sceneChargement");
+
+		this.nbProgression;
+		this.cercleProgression;
+		this.txtProgression;
 	}
 	
 	preload() {
+
+		//Creation du cercle qui montre la progression du chargement du jeu
+		this.cercleProgression = this.add.graphics();
+
+		this.txtProgression = this.add.text(screen.width/3.1,screen.height/4,"0",{fontSize: 60, color:"#000000"});
 
 		//Charger le plugin pour le joystic virtuel
 		let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
@@ -24,20 +33,19 @@ export class sceneChargement extends Phaser.Scene {
 		
 		// Menu
 		this.load.image("menuBG", "img/menus/menu_jeuBG.jpg");
-		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");
-
-		// Lave                                                                                      
-		this.load.image("lava","img/tilesets/lava.png");                                                                                                                                                                 
+		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");                                                                                                                                                             
 		
 		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
 		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");
 
-		// Effets sonores (ne pas oublier d'importer les sons en mp3 et ogg... la prof qui gosse)
-		this.load.audio("sonSaut","sons/jump.wav");
+		// Effets sonores
+		this.load.audio("sonSaut",["sons/jump.wav","sons/jump.ogg","sons/jump.mp3"]);
+		this.load.audio("sonEtoile",["sons/starPickup.wav"]);
+		this.load.audio("sonMort",["sons/dyingInLava.wav"]);
 
 		//Theme Chiptune
-		this.load.audio("themePrincipal","sons/TribalTheme.wav");
+		this.load.audio("themePrincipal",["sons/TribalTheme.wav","sons/TribalTheme.ogg","sons/TribalTheme.mp3"]);
 	
         this.load.setPath("medias/img/spritesheet");
 
@@ -90,8 +98,8 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.tilemapTiledJSON("lvl1","maps/TP1_tilemap3.json");
 
 		// Tilesets
-		this.load.image("templeSet","img/tilesets/tile_temple.png");
-		this.load.image("customSet","img/tilesets/customAssets.png");
+		this.load.image("templeSet","img/tilesets/tile_temple-extruded.png");
+		this.load.image("customSet","img/tilesets/customAssets-extruded.png");
 
 
 		// Charger les polices bitmap
@@ -100,13 +108,29 @@ export class sceneChargement extends Phaser.Scene {
 
 		this.load.on("progress",this.progressionChargement,this);
 
+		
+
 	}
 
 	progressionChargement(pourcentage){
-		console.log(pourcentage);
+		console.log(pourcentage * 360);
+
+		this.cercleProgression.beginPath();
+
+		this.cercleProgression.fillStyle(0xfafe50);
+
+		this.cercleProgression.arc(screen.width/3,200,100,Phaser.Math.DegToRad(270),Phaser.Math.DegToRad((pourcentage * 360)+270),false);
+		
+		this.cercleProgression.lineTo(screen.width/3,200);
+
+		this.cercleProgression.fill();
+
+		this.txtProgression.text = Math.round(pourcentage * 100) + "%";
 	}
 
 	create() {
+		
 		this.scene.start("Menu");
 	}
+
 }

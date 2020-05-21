@@ -1,4 +1,6 @@
-
+/**
+ * 
+ */
 export class Instructions extends Phaser.Scene {
 
     constructor() {

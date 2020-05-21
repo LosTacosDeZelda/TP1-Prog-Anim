@@ -14,6 +14,10 @@ export class Menu extends Phaser.Scene{
     create(){
         //this.boutonJouer = this.add.rectangle(window.innerWidth/2,window.innerHeight/2,100,50,0xffffff);
 
+        this.input.keyboard.on("keydown-F",this.gererPleinEcran,this);
+
+        console.log("FullScreenAvailable : " + this.sys.game.device.fullscreen.available);
+
         // si on est sur ordinateur
         if(window.orientation == undefined){
 
@@ -31,8 +35,9 @@ export class Menu extends Phaser.Scene{
             this.boutonJouer = this.add.bitmapText(this.game.scale.width,this.game.scale.height/2,"SF-Fedora","Jouer");
             this.boutonJouer.setOrigin(1.2,1);
 
-            // texte du menu
+            // Nom du jeu
             this.menuTexte = this.add.bitmapText(this.game.scale.width,0,"SF-Fedora","John Jones",100);
+            this.menuTexte.text = "FullScreenAvailable : " + this.sys.game.device.fullscreen.available;
             this.menuTexte.setOrigin(1.1,0);
     
         }
@@ -55,6 +60,7 @@ export class Menu extends Phaser.Scene{
 
             // texte du menu
             this.menuTexte = this.add.bitmapText(window.innerWidth/1.05,0,"SF-Fedora","John Jones",100);
+            this.menuTexte.text = "FullScreenAvailable : " + this.sys.game.device.fullscreen.available;
             this.menuTexte.setOrigin(1,0);
         }
 
@@ -74,18 +80,34 @@ export class Menu extends Phaser.Scene{
 
         console.log("window orientation : " + window.orientation);
         console.log("canvas size : " + this.game.scale.width);
+
+        
     }
 
     update(){
 
     }
 
-    hover(){
 
-    }
 
     //Fonctions personnelles
     chargerScene(){
         this.scene.start("niveau1");
+    }
+
+    /**
+     * 
+     */
+    gererPleinEcran(){
+        console.log("enter");
+        if (this.scale.isFullscreen) {
+
+            this.scale.stopFullscreen();
+        }
+        else{
+
+            this.scale.startFullscreen();
+        }
+        
     }
 }
