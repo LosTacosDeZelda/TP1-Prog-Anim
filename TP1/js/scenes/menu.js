@@ -24,6 +24,7 @@ export class Menu extends Phaser.Scene {
         let boutonJouer;
         let boutonInstructions;
         let boutonCredits;
+        let telephoneRotation;
 
         let menuBG;
         let menuPerso;
@@ -72,8 +73,6 @@ export class Menu extends Phaser.Scene {
             }.bind(this));
 
         };
-
-
 
 
 
@@ -142,9 +141,14 @@ export class Menu extends Phaser.Scene {
                 //menuTexte.text = "FullScreenAvailable : " + this.sys.game.device.fullscreen.available;
                 menuTexte.setOrigin(1, 0);
             }
+
             // si on est sur mobile et à la verticale
             else if (window.orientation == 0) {
                 this.bonneOrientation = false;
+
+                // Inviter l'utilisateur a changer l'orientation de son appareil si il est en mode portrait
+                telephoneRotation = this.add.image(this.game.scale.width/2, this.game.scale.height/2, "telephoneRotation");
+                telephoneRotation.setOrigin(0.5);
             }
         
         // mettre l'interactivité des boutons seulement si le mobile n'est pas à la verticale
@@ -160,7 +164,8 @@ export class Menu extends Phaser.Scene {
             boutonJouer.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[0]) }, this);
 
             boutonInstructions.setInteractive({ useHandCursor: true, pixelPerfect: true });
-            boutonInstructions.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[1]) }, this);
+            boutonInstructions.on("pointerdown", function () { this.scene.start("Instructions")}, this);
+            // boutonInstructions.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[1]) }, this);
 
             boutonCredits.setInteractive({ useHandCursor: true, pixelPerfect: true });
             boutonCredits.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[2]) }, this);
@@ -188,6 +193,7 @@ export class Menu extends Phaser.Scene {
     }
 
     update() {
+
         // rafraichir le menu si on passe de vertical à horizontal
         if (this.bonneOrientation == false && (window.orientation == 90 || window.orientation == -90)) {
             this.bonneOrientation = true;
@@ -206,8 +212,6 @@ export class Menu extends Phaser.Scene {
                 div.style.marginTop = this.canvasElm.style.marginTop;
             });
         }
-
-
 
     }
 
