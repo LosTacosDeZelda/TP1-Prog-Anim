@@ -112,6 +112,8 @@ export class GameOver extends Phaser.Scene {
         game.properties.mort = false;
         this.boutonMenu.anims.play("menuButtonAnim");
 
+        this.game.properties.score = 0;
+
         this.time.addEvent({
             delay: 200,
             callback: function () { this.scene.start("Menu"); },

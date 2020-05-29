@@ -16,6 +16,7 @@ export class Menu extends Phaser.Scene {
 
         this.boutonsPrincipaux = [];
         this.boutonsNiveaux = [];
+        this.meilleurScoreTextes = [];
     }
 
     create() {
@@ -35,7 +36,23 @@ export class Menu extends Phaser.Scene {
         this.elementsMenu = document.querySelectorAll("body > div");
 
         //Boutons pour la sélection des niveaux
-        this.boutonsNiveaux = document.querySelectorAll("#menuNiveaux #flexContainer span img");
+        this.boutonsNiveaux = document.querySelectorAll("#menuNiveaux #flexContainer .niveaux img");
+        this.meilleurScoreTextes = document.querySelectorAll("#menuNiveaux #flexContainer .niveaux span");
+
+        //this.meilleurScoreTextes.forEach(scoreText => {scoreText.innerHtml = this.game.properties.stockageLocal.getItem("pointageNiv")})
+
+       
+        for (let i = 0; i < this.meilleurScoreTextes.length; i++) {
+
+            if (this.game.properties.stockageLocal.getItem("pointageNiv" + (i+1)) != null) {
+                this.meilleurScoreTextes[i].innerHTML = this.game.properties.stockageLocal.getItem("pointageNiv" + (i+1)) + "/5";
+            }
+            else{
+                this.game.properties.stockageLocal.setItem("pointageNiv"+ (i+1), 0);
+            }
+          
+        }
+
         console.log(this.boutonsNiveaux);
 
         //Bouton Retour pour chacun des sous-menus

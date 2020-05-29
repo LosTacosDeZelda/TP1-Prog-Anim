@@ -1,10 +1,10 @@
 /**
  * 2eme niveau de jeu
  */
-export class Niveau2 extends Phaser.Scene {
+export class Niveau3 extends Phaser.Scene {
 
     constructor() {
-        super("Niveau2");
+        super("Niveau3");
 
         //Tableaux
         this.layers = [];
@@ -101,64 +101,6 @@ export class Niveau2 extends Phaser.Scene {
             this.surOrdi = true;
 
         }
-
-        //Créer les animations du traveler
-        this.anims.create({
-            key: "idle",
-            frames: this.anims.generateFrameNumbers("travelerIdle", {
-                start: 0,
-                end: 7
-            }),
-            frameRate: 10,
-            repeat: -1
-
-        });
-
-
-        this.anims.create({
-            key: "run",
-            frames: this.anims.generateFrameNumbers('travelerRun', {
-                start: 0,
-                end: 5
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: "jump",
-            frames: this.anims.generateFrameNumbers("travelerJump", {
-                start: 0,
-                end: 19
-            }),
-            frameRate: 20,
-            repeat: 1,
-
-        });
-
-        this.anims.create({
-
-            key: "land",
-            frames: this.anims.generateFrameNumbers("travelerLand", {
-                start: 0,
-                end: 1
-            }),
-            frameRate: 10,
-            repeat: 1
-
-        });
-        //Fin animations traveler
-
-        //Animation du bouton sauter
-        this.anims.create({
-            key: "clickButton",
-            frames: this.anims.generateFrameNumbers("jumpButton", {
-                start: 0,
-                end: 3
-            }),
-            frameRate: 10
-        });
-
 
         //Instancier l'aventurier comme entité physique au debut du niveau
         //On affiche l'image au repos de celui-ci

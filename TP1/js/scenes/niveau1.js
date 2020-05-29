@@ -56,7 +56,7 @@ export class Niveau1 extends Phaser.Scene {
         this.petitCercle.setScale(window.innerWidth / 650, window.innerWidth / 650);
 
         // Créer le texte pour le pointage
-        this.scoreText = this.add.bitmapText(screen.width/1.9, (screen.height - screen.height) + 30, "SF-Fedora", "Pointage : " + game.properties.score, 30).setDepth(1);
+        this.scoreText = this.add.bitmapText(this.game.scale.width /1.25, this.game.scale.height - this.game.scale.height + 30, "SF-Fedora", "Pointage : " + game.properties.score, 30).setDepth(1);
 
         this.scoreText.setScrollFactor(0);
 
@@ -331,6 +331,16 @@ export class Niveau1 extends Phaser.Scene {
 
         game.properties.partieGagnee = true;
         this.startWall = false;
+
+        //if (this.game.properties.stockageLocal.getItem("pointageNiv1") == null) {
+            
+        //}
+
+        if (this.game.properties.stockageLocal.getItem("pointageNiv1") == null || this.game.properties.score > (this.game.properties.stockageLocal.getItem("pointageNiv1"))){
+            this.game.properties.stockageLocal.setItem("pointageNiv1",this.game.properties.score);
+        }
+        
+
         this.scene.start("gameOver");
     }
 

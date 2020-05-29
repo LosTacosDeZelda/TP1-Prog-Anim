@@ -7,19 +7,21 @@ div{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 30pt;
     background-color: rgb(182, 132, 40);
+}
+
+section{
+    margin: 5% 5%;
+}
+
+.overlay{
     position: absolute;
-    /*width: 50vw;
-    height: 50vh;
-    z-index: 10;*/
+    
 }
 
 #aide-ordi{
-    /*max-width: 100%;
-    max-height: 100%;*/
 
     width: 1024px;
     height: 576px;
-    
     
 }
 
@@ -38,4 +40,23 @@ a{
 
 img{
     cursor: pointer;
+    width: 2.5em;
+}
+
+span{
+    position: relative;
+    left: 10%;
+    top: 40%;
+}
+
+#flexContainer{
+    display: flex;
+    width: 50%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.niveaux{
+    position: initial;
+    /*margin-left: 10%;*/
 }
