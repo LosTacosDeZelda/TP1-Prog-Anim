@@ -3,7 +3,7 @@
  * a fini un niveau, permet de faire le lien entre le menu et le jeu
  */
 
-export class gameOver extends Phaser.Scene {
+export class GameOver extends Phaser.Scene {
 
     constructor() {
 
@@ -16,7 +16,7 @@ export class gameOver extends Phaser.Scene {
     create() {
 
         //Creer le bouton menu
-        this.boutonMenu = this.add.sprite(screen.width / 4, screen.height / 2.05, "menuButton", 0);
+        this.boutonMenu = this.add.sprite(this.game.scale.width/2.7, this.game.scale.height/1.37, "menuButton", 0);
 
         //Créer l'animation du bouton menu
         this.anims.create({
@@ -53,28 +53,28 @@ export class gameOver extends Phaser.Scene {
         });
         
         //Texte menu
-        let menuTexte = this.add.bitmapText(screen.width / 4, screen.height / 2, "VCR", "Menu", 50);
+        let menuTexte = this.add.bitmapText(this.game.scale.width/2.7, this.game.scale.height/1.35, "VCR", "Menu", 50);
         //Permet à la position du texte de correspondre à celle du bouton
         menuTexte.setOrigin(0.5, 1);
 
         //Changer l'affichage selon si le joueur a fini le niveau ou non
         if (this.game.properties.partieGagnee) {
 
-            let enVie = this.add.sprite(screen.width / 3, screen.height / 5, "mortOuEnVie", 0);
+            let enVie = this.add.sprite(this.game.scale.width/2, this.game.scale.height / 3.5, "mortOuEnVie", 0);
             enVie.setScale(0.8);
 
-            this.boutonMenu.setX(screen.width / 3);
-            menuTexte.setX(screen.width / 3);
+            this.boutonMenu.setX(this.game.scale.width/2);
+            menuTexte.setX(this.game.scale.width/2);
 
             game.properties.partieGagnee = false;
 
 
         } else {
 
-            let dead = this.add.sprite(screen.width / 3, screen.height / 5, "mortOuEnVie", 1);
+            let dead = this.add.sprite(this.game.scale.width/2, this.game.scale.height / 3.5, "mortOuEnVie", 1);
             dead.setScale(0.8);
 
-            let boutonEssai = this.add.image(screen.width / 2.4, screen.height / 2.05, "boutonReessayer", 0);
+            let boutonEssai = this.add.image(this.game.scale.width/1.5, this.game.scale.height/1.35, "boutonReessayer", 0);
 
             boutonEssai.setInteractive({
                 pixelPerfect: true,
@@ -86,7 +86,7 @@ export class gameOver extends Phaser.Scene {
             boutonEssai.on("pointerdown", function () {
 
                 game.properties.mort = false;
-                this.scene.start("niveau1");
+                this.scene.start("Niveau1");
 
             }, this);
 
@@ -98,7 +98,7 @@ export class gameOver extends Phaser.Scene {
                 this.clearTint();
             });
 
-            let essaiTexte = this.add.bitmapText(screen.width / 2.39, screen.height / 2.05, "VCR", "Réessayer", 35);
+            let essaiTexte = this.add.bitmapText(this.game.scale.width/1.5, this.game.scale.height/1.35, "VCR", "Réessayer", 35);
             //Permet à la position du texte de correspondre à celle du bouton
             essaiTexte.setOrigin(0.5, 1);
 

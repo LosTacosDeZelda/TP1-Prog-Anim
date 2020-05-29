@@ -4,10 +4,10 @@
  * @extends Phaser.Scene
  */
 
-export class sceneChargement extends Phaser.Scene {
+export class SceneChargement extends Phaser.Scene {
 
 	constructor() {
-		super("sceneChargement");
+		super("SceneChargement");
 
 		this.nbProgression;
 		this.cercleProgression;
@@ -21,7 +21,7 @@ export class sceneChargement extends Phaser.Scene {
 
 		this.txtProgression = this.add.text(screen.width/3.1,screen.height/4,"0",{fontSize: 60, color:"#000000"});
 
-		//Charger le plugin pour le joystic virtuel
+		//Charger le plugin pour le joystick virtuel
 		let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
 		this.load.plugin('rexvirtualjoystickplugin', url, true);
 
@@ -32,7 +32,7 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.setPath("medias/");
 		
 		// Menu
-		this.load.image("menuBG", "img/menus/menu_jeuBG.jpg");
+		this.load.image("menuBG", "img/menus/menu_jeuBG.png");
 		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");                                                                                                                                                             
 		
 		// UI
@@ -95,11 +95,15 @@ export class sceneChargement extends Phaser.Scene {
 		this.load.setPath("medias/");
 
 		// Fichier JSON du tilemap
-		this.load.tilemapTiledJSON("lvl1","maps/TP1_tilemap3.json");
+		this.load.tilemapTiledJSON("lvl1","maps/niveau1Tilemap.json");
+		this.load.tilemapTiledJSON("lvl2","maps/niveau2Tilemap.json");
 
 		// Tilesets
 		this.load.image("templeSet","img/tilesets/tile_temple-extruded.png");
 		this.load.image("customSet","img/tilesets/customAssets-extruded.png");
+
+		//Mur de lave
+		this.load.image("murLave","img/tilesets/murDeLave.png");
 
 
 		// Charger les polices bitmap

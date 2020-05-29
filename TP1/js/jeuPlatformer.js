@@ -1,18 +1,14 @@
 //Importation des scripts et classes nécessaires
-import {
-	sceneChargement
-} from './scenes/sceneChargement.js';
+import { SceneChargement } from './scenes/SceneChargement.js';
 
-import {
-	Menu
-} from "./scenes/menu.js";
+import { Menu } from "./scenes/Menu.js";
 
-import {
-	niveau1
-} from './scenes/niveau1.js';
+import { Niveau1 } from './scenes/Niveau1.js';
 
-import { gameOver } from './scenes/gameOver.js';
-import { Instructions } from './scenes/instructions.js';
+import { Niveau2 } from './scenes/Niveau2.js'
+
+import { GameOver } from './scenes/GameOver.js';
+import { Instructions } from './scenes/Instructions.js';
 
 window.addEventListener("load", function () {
 	
@@ -40,7 +36,7 @@ window.addEventListener("load", function () {
 			height: hauteur
 		},
 
-		scene: [sceneChargement, Menu, Instructions, niveau1, gameOver],
+		scene: [SceneChargement, Menu, Instructions, Niveau1, Niveau2 ,GameOver],
 		physics: {
 			default: 'arcade',
 			arcade: {

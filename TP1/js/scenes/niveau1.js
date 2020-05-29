@@ -3,11 +3,11 @@
  * 1er niveau du jeu (trop dur? le mettre en 2eme?)
  */
 
-export class niveau1 extends Phaser.Scene {
+export class Niveau1 extends Phaser.Scene {
 
 
     constructor() {
-        super("niveau1");
+        super("Niveau1");
 
         //Arrays
         this.layers = [];
@@ -21,7 +21,9 @@ export class niveau1 extends Phaser.Scene {
         //Variable pour détecter le saut
         this.auSol = false;
 
-        this.posX = 0;
+        //Mur de Lave
+        this.murLave;
+        this.lavePosX = 0;
 
         this.startWall = false;
 
@@ -39,7 +41,8 @@ export class niveau1 extends Phaser.Scene {
     }
 
     /**
-     * 
+     * Sert à instancier les éléments dans la scène
+     * et à positionner ceux qui sont statiques
      */
     create() {
 
@@ -176,12 +179,9 @@ export class niveau1 extends Phaser.Scene {
         //Instancier le tilemap du niveau, et rajouter les tilesets correspondants
         let niveau1TileMap = this.make.tilemap({key:"lvl1"});
 
-       
-
         //Ajouter les tileset utilisés
         let templeSet = niveau1TileMap.addTilesetImage("Jungle", "templeSet");
         let customSet = niveau1TileMap.addTilesetImage("customs", "customSet");
-
 
 
         //Affichage des Layers (à optimiser ???)
@@ -196,10 +196,14 @@ export class niveau1 extends Phaser.Scene {
         this.obstaclesLayer = niveau1TileMap.createStaticLayer("obstacles", [templeSet], 0, 255);
         this.laveLayer = niveau1TileMap.createStaticLayer("lave", [customSet], 0, 255);
         this.etoilesLayer = niveau1TileMap.createDynamicLayer("etoiles", [customSet], 0, 255);
-        this.murLaveLayer = niveau1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+        //this.murLaveLayer = niveau1TileMap.createStaticLayer("murLave", [customSet], 0, 255);
+
+        //Mur de lave dynamique
+        this.murLave = this.physics.add.sprite(this.game.scale.width/2,this.game.scale.height,"murLave");
+        this.murLave.setScale(1.3);
 
         //Optimisation, on peut maintenant accéder plus facilement aux layers (peut faire des boucles)
-        this.layers.push(this.goalLayer, this.bg_gateLayer, this.gate_backLayer, this.gate_frontLayer, this.bgLayer, this.solLayer, this.gazonLayer, this.fixesLayer, this.obstaclesLayer, this.laveLayer, this.etoilesLayer, this.murLaveLayer);
+        this.layers.push(this.goalLayer, this.bg_gateLayer, this.gate_backLayer, this.gate_frontLayer, this.bgLayer, this.solLayer, this.gazonLayer, this.fixesLayer, this.obstaclesLayer, this.laveLayer, this.etoilesLayer);
 
 
         // Ajout des collisions
@@ -207,7 +211,7 @@ export class niveau1 extends Phaser.Scene {
         this.physics.add.collider(this.player, this.obstaclesLayer, this.toucheSol, null, this);
 
         this.physics.add.collider(this.player, this.laveLayer, this.collisionLave, null, this);
-        this.physics.add.collider(this.player, this.murLaveLayer, this.collisionLave, null, this)
+        this.physics.add.collider(this.player, this.murLave, this.collisionLave, null, this)
 
         this.physics.add.collider(this.player, this.etoilesLayer, this.ramasseEtoile, null, this);
 
@@ -222,18 +226,17 @@ export class niveau1 extends Phaser.Scene {
 
         //Cette méthode permet d'appeler une fonction quand quelque chose collide avec la layer 
         //Il faut donner les index des tiles que tu veux vérifier
-        this.murLaveLayer.setTileIndexCallback([139, 2684354698], this.collisionLave, this);
-        this.etoilesLayer.setTileIndexCallback([137], this.ramasseEtoile, this);
+        this.etoilesLayer.setTileIndexCallback(137, this.ramasseEtoile, this);
 
         //Ajustement de la taille des layers du tilemap
         this.layers.forEach(layer => {
-            layer.setDisplaySize(5000, 833); //833
+            layer.setDisplaySize(5000, 833); 
         });
 
 
         //Caméra suivant le joueur (avec contraintes)
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(500, 255, 4500, 1500);
+        this.cameras.main.setBounds(500, 255, 4500, 700);
 
         this.cameras.main.roundPixels = true
         //this.cameras.main.setScene(this);
@@ -281,6 +284,7 @@ export class niveau1 extends Phaser.Scene {
         this.etoilesLayer.removeTileAtWorldXY(etoile.getBounds().x, etoile.getBounds().y);
 
         this.sound.play("sonEtoile");
+
         game.properties.score++;
         this.scoreText.setText("Pointage : " + game.properties.score);
 
@@ -335,7 +339,7 @@ export class niveau1 extends Phaser.Scene {
      */
     loadScene() {
 
-        this.scene.start("niveau1");
+        this.scene.start("Niveau1");
         this.startWall = false;
 
         //Petit probleme avec le reload, pour etre sur qu'il se fasse après, je l'ai fait ici
@@ -346,14 +350,14 @@ export class niveau1 extends Phaser.Scene {
 
     }
     /**
-     * Permet de declencher le mur de lave
+     * Permet de déclencher le mur de lave
      */
     startLavaWall() {
         this.startWall = true;
     }
 
     /**
-     * Update permet de faire bouger le joueur dans la scene
+     * l'Update permet de gérer tous les éléments dynamiques
      * 
      */
     update() {
@@ -461,7 +465,7 @@ export class niveau1 extends Phaser.Scene {
             //Le mur de lave avance et poursuit le joueur tout au long du niveau
             if (this.startWall == true) {
 
-                this.murLaveLayer.setX(this.posX += 1.4);
+                this.murLave.setVelocityX(160); //140 est peut etre bien
 
             }
 
@@ -470,7 +474,7 @@ export class niveau1 extends Phaser.Scene {
             this.scene.start("gameOver");
 
             this.startWall = false;
-            this.posX = 0;
+            this.lavePosX = 0;
         }
 
         console.log("Start lava wall" + this.startWall);
