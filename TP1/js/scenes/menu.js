@@ -113,6 +113,13 @@ export class Menu extends Phaser.Scene {
                 boutonJouer = this.add.bitmapText(screen.width, screen.height / 2, "SF-Fedora", "Jouer");
                 boutonJouer.setOrigin(1.15, 1);
 
+                boutonInstructions = this.add.bitmapText(this.game.scale.width, this.game.scale.height / 1.5, "SF-Fedora", "Instructions");
+                boutonInstructions.setOrigin(1.1, 1);
+
+                boutonCredits = this.add.bitmapText(this.game.scale.width, this.game.scale.height / 1.2, "SF-Fedora", "Crédits");
+                boutonCredits.setOrigin(1.2, 1);
+
+
                 // texte du menu
                 menuTexte = this.add.bitmapText(window.innerWidth / 1.05, 0, "SF-Fedora", "John Jones", 100);
                 //menuTexte.text = "FullScreenAvailable : " + this.sys.game.device.fullscreen.available;
