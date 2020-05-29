@@ -33,7 +33,8 @@ export class SceneChargement extends Phaser.Scene {
 		
 		// Menu
 		this.load.image("menuBG", "img/menus/menu_jeuBG.png");
-		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");                                                                                                                                                             
+		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");
+		this.load.image("telephoneRotation", "img/menus/rotation.png");
 		
 		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
@@ -117,7 +118,7 @@ export class SceneChargement extends Phaser.Scene {
 	}
 
 	progressionChargement(pourcentage){
-		console.log(pourcentage * 360);
+		// console.log(pourcentage * 360);
 
 		this.cercleProgression.beginPath();
 

@@ -23,6 +23,7 @@ export class Menu extends Phaser.Scene {
         let boutonJouer;
         let boutonInstructions;
         let boutonCredits;
+        let telephoneRotation;
 
         let menuBG;
         let menuPerso;
@@ -55,8 +56,6 @@ export class Menu extends Phaser.Scene {
             }.bind(this));
 
         };
-
-
 
 
 
@@ -125,9 +124,14 @@ export class Menu extends Phaser.Scene {
                 //menuTexte.text = "FullScreenAvailable : " + this.sys.game.device.fullscreen.available;
                 menuTexte.setOrigin(1, 0);
             }
+
             // si on est sur mobile et à la verticale
             else if (window.orientation == 0) {
                 this.bonneOrientation = false;
+
+                // Inviter l'utilisateur a changer l'orientation de son appareil si il est en mode portrait
+                telephoneRotation = this.add.image(this.game.scale.width/2, this.game.scale.height/2, "telephoneRotation");
+                telephoneRotation.setOrigin(0.5);
             }
         
         // mettre l'interactivité des boutons seulement si le mobile n'est pas à la verticale
@@ -171,6 +175,7 @@ export class Menu extends Phaser.Scene {
     }
 
     update() {
+
         // rafraichir le menu si on passe de vertical à horizontal
         if (this.bonneOrientation == false && (window.orientation == 90 || window.orientation == -90)) {
             this.bonneOrientation = true;
@@ -189,8 +194,6 @@ export class Menu extends Phaser.Scene {
                 div.style.marginTop = this.canvasElm.style.marginTop;
             });
         }
-
-
 
     }
 
