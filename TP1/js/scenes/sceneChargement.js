@@ -35,7 +35,10 @@ export class SceneChargement extends Phaser.Scene {
 		this.load.image("menuBG", "img/menus/menu_jeuBG.png");
 		this.load.image("menuPerso", "img/menus/menu_jeuPerso.png");
 		this.load.image("telephoneRotation", "img/menus/rotation.png");
-		
+		this.load.image("aideJeu_Ordi", "img/menus/aideJeu_Ordi.jpg");
+		this.load.image("aideJeu_Mobile", "img/menus/aideJeu_Mobile.jpg");
+		this.load.image("aideJeu_BG", "img/menus/aideJeu_BG.jpg");
+
 		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
 		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");

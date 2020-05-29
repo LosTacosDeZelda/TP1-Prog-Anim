@@ -147,7 +147,8 @@ export class Menu extends Phaser.Scene {
             boutonJouer.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[0]) }, this);
 
             boutonInstructions.setInteractive({ useHandCursor: true, pixelPerfect: true });
-            boutonInstructions.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[1]) }, this);
+            boutonInstructions.on("pointerdown", function () { this.scene.start("Instructions")}, this);
+            // boutonInstructions.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[1]) }, this);
 
             boutonCredits.setInteractive({ useHandCursor: true, pixelPerfect: true });
             boutonCredits.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[2]) }, this);
