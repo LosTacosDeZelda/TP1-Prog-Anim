@@ -165,7 +165,7 @@ export class Menu extends Phaser.Scene {
 
             boutonInstructions.setInteractive({ useHandCursor: true, pixelPerfect: true });
             boutonInstructions.on("pointerdown", function () { this.scene.start("Instructions")}, this);
-            // boutonInstructions.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[1]) }, this);
+            
 
             boutonCredits.setInteractive({ useHandCursor: true, pixelPerfect: true });
             boutonCredits.on("pointerdown", function () { this.toggleOverlay(this.elementsMenu[2]) }, this);
@@ -253,12 +253,17 @@ export class Menu extends Phaser.Scene {
     gererPleinEcran() {
         console.log("enter");
         if (this.scale.isFullscreen) {
-
+        
+            this.elementsMenu.forEach(overlay => {document.body.insertBefore(overlay, document.body.firstChild);})
+            
             this.scale.stopFullscreen();
         }
         else {
 
             this.scale.startFullscreen();
+
+            this.elementsMenu.forEach(overlay => { this.canvasElm.parentElement.insertBefore(overlay, this.canvasElm.parentElement.firstChild);});
+
         }
 
     }
