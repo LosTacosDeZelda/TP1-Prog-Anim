@@ -42,6 +42,7 @@ export class SceneChargement extends Phaser.Scene {
 		// UI
 		this.load.image("joystickExt","UI/Analog-Disc-Field@2x.png");
 		this.load.image("joystickInt","UI/Aqua-Analog-Pad@2x.png");
+		this.load.image("boutonRetour", "UI/Orange/Orange Button1.png");
 
 		// Effets sonores
 		this.load.audio("sonSaut",["sons/jump.wav","sons/jump.ogg","sons/jump.mp3"]);
@@ -95,6 +96,12 @@ export class SceneChargement extends Phaser.Scene {
 			frameWidth:256,
 			frameHeight:256
 		});
+
+		this.load.spritesheet("boutonUI","button_UI.png",{
+			frameWidth:16,
+			frameHeight:16
+		});
+
 
 		this.load.setPath("medias/");
 

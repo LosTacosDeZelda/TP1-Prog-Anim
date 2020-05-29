@@ -60,3 +60,7 @@ span{
     position: initial;
     /*margin-left: 10%;*/
 }
+
+#disclaimer{
+    font-size: 0.4em;
+}
